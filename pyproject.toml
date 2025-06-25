@@ -1,7 +1,43 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
 [project]
 name = "golangci-lint-linter"
-version = "0.1.0"
-description = "Add your description here"
+dynamic = ["version"]
+description = "Linter for the golanci-lint files."
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = []
+dependencies = [
+    "ruamel-yaml>=0.18.14",
+]
+authors = [
+  {name = "Manuel Doncel Martos", email = "manueldoncelmartos@gmail.com"}
+]
+maintainers = [
+  {name = "Manuel Doncel Martos", email = "manueldoncelmartos@gmail.com"}
+]
+license = "MIT AND (Apache-2.0 OR BSD-2-Clause)"
+keywords = ["linter", "golangci-lint", "go", "best-practices"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+
+  "Intended Audience :: Developers",
+  "Topic :: Software Development :: Build Tools",
+
+  "Programming Language :: Python",
+]
+
+[project.urls]
+Repository = "https://github.com/manuelarte/golangci-lint-linter.git"
+Issues = "https://github.com/manuelarte/golangci-lint-linter/issues"
+Changelog = "https://github.com/manuelarte/golangci-lint-linter/blob/master/CHANGELOG.md"
+
+[project.script]
+golangci-lint-linter = "main:main"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "_version.py"
