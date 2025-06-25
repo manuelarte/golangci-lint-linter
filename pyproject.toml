@@ -38,3 +38,8 @@ source = "vcs"
 
 [tool.hatch.build.hooks.vcs]
 version-file = "_version.py"
+
+[dependency-groups]
+dev = [
+    "ruff>=0.12.0",
+]

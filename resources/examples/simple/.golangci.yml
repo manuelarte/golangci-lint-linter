@@ -1,4 +1,5 @@
 ---
+# version 2 of golangci-lint
 version: "2"
 
 formatters:
