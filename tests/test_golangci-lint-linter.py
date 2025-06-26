@@ -3,7 +3,7 @@ import io
 from ruamel.yaml.comments import CommentedMap
 from ruamel.yaml.tokens import CommentToken
 
-from golangci_lint_linter import _read_yaml_file
+from golangci_lint_linter import read_yaml_file
 
 
 def test_comments_are_available():
@@ -21,7 +21,7 @@ def test_comments_are_available():
     """.lstrip()
     )
 
-    commented_map: CommentedMap = _read_yaml_file(f)
+    commented_map: CommentedMap = read_yaml_file(f)
     formatters_comments: [CommentToken | None] = commented_map.ca.items["formatters"]
     formatters_comment_token: CommentToken = formatters_comments[2]
 

@@ -8,7 +8,7 @@ from ruamel.yaml.comments import CommentedMap
 from golangci_lint_linter.errors import ProgramError
 
 
-def _read_yaml_file(f: TextIO) -> CommentedMap:
+def read_yaml_file(f: TextIO) -> CommentedMap:
     yaml = YAML()
     yaml.preserve_quotes = True
     parsed = yaml.load(f)
@@ -23,6 +23,6 @@ def main(file: TextIO) -> int:
     """Linter for the golanci-lint configuration file."""
     if not file.readable():
         raise ValueError(f"Cannot read file {file}")
-    _read_yaml_file(file)
+    read_yaml_file(file)
 
     return 0
