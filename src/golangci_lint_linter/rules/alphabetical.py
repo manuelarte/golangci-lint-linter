@@ -19,7 +19,6 @@ class Alphabetical(object):
         pass
 
     def lint(self, file: CommentedMap) -> [Report]:
-        """Lint the .golangci file."""
         if not file:
             raise ProgramError("file not found")
         if not isinstance(file, CommentedMap):

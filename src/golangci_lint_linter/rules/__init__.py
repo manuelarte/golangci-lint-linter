@@ -21,4 +21,6 @@ class Report(object):
 class Ruler(Protocol):
     rule: Rule
 
-    def lint(self, file: CommentedMap) -> [Report]: ...
+    def lint(self, file: CommentedMap) -> [Report]:
+        """Lint the .golangci file."""
+        ...
