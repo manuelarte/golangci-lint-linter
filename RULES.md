@@ -1,19 +1,25 @@
 # Rules
 
-## Experimental: Fields are sorted by, default, enabled, disabled
+## Style Linters
 
-## Linters are sorted alphabetically
+### Experimental: GCI001: Linters are sorted alphabetically
 
-## Settings are sorted alphabetically
+### Experimental: GCI002: Settings are sorted alphabetically
 
-## Warn for settings of not enable linter
+### Experimental: GCI013: Fields are sorted by, default, enabled, disabled
 
-## Disabled linters have a reason
+## Documentation & Metadata
 
-## Linter Suggestions
+### Experimental: GCI020: Warn for settings of not enabled linter
+
+### Experimental: GCI021: Disabled linters have a reason
+
+### Experimental: GCI022: Linter Suggestions
 
     + gci with imports in standard, and then the rest.
     + suggestions to use revive and var-naming and filename.
-    + replace iterface{} to any.
+    + replace interface{} to any.
 
-## Catch flaws in configuration
+## Miscellaneous
+
+### Experimental: GCI041:  Catch flaws in configuration

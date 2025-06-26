@@ -1,7 +1,8 @@
 from typing import TextIO
 
 import click
-from ruamel.yaml import YAML, CommentedMap
+
+from ruamel.yaml import YAML
 from ruamel.yaml.comments import CommentedMap
 
 from golangci_lint_linter.errors import ProgramError
