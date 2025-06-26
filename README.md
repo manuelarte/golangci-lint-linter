@@ -6,6 +6,10 @@ Linter for the configuration files for the well known linter [`golangci-lint`][g
 
 TODO
 
+## 📜 Rules
+
+The list of linting rules can be found in [RULES.md](./RULES.md).
+
 ## 🚀 How To Run It
 
 The project is using [uv][uv], to run it:

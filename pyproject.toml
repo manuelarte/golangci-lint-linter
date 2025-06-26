@@ -8,6 +8,7 @@ authors = [
 ]
 requires-python = ">=3.10"
 dependencies = [
+    "click>=8.2.1",
     "ruamel-yaml>=0.18.14",
 ]
 license = "MIT AND (Apache-2.0 OR BSD-2-Clause)"
@@ -41,5 +42,6 @@ version-file = "_version.py"
 
 [dependency-groups]
 dev = [
+    "pytest>=8.4.1",
     "ruff>=0.12.0",
 ]
