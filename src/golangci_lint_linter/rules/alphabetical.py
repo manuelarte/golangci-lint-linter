@@ -29,9 +29,13 @@ class Alphabetical(object):
         linters: CommentedMap = file["linters"]
         enable: [str] = linters.get("enable", default=[])
         if enable and not _is_alphabetical(enable):
-            reports.append(Report(self.rule, "linters.enable not sorted alphabetically."))
+            reports.append(
+                Report(self.rule, "linters.enable not sorted alphabetically.")
+            )
         disable: [str] = linters.get("disable", default=[])
         if disable and not _is_alphabetical(disable):
-            reports.append(Report(self.rule, "linters.disable not sorted alphabetically."))
+            reports.append(
+                Report(self.rule, "linters.disable not sorted alphabetically.")
+            )
 
         return reports
