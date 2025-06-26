@@ -26,5 +26,8 @@ def test_comments_are_available():
     formatters_comment_token: CommentToken = formatters_comments[2]
 
     assert isinstance(formatters_comment_token, CommentToken)
-    assert formatters_comment_token.value == """# here are defined the formatters
+    assert (
+        formatters_comment_token.value
+        == """# here are defined the formatters
           # enable the most used formatters  \n"""
+    )
