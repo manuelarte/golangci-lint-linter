@@ -30,7 +30,7 @@ linters:
     - errchkjson
     - exhaustruct
     - forcetypeassert
-    - ginkgolinter # Related to Ginkgo.
+    - ginkgolinter  # Related to Ginkgo.
     - goheader
     - gomodguard
     - gosmopolitan
@@ -42,11 +42,11 @@ linters:
     - nlreturn
     - paralleltest
     - prealloc
-    - promlinter # Related to prometheus.
-    - protogetter # Related to protocol buffer.
-    - rowserrcheck # Related to SQL.
-    - spancheck # Related to OpenTelemetry
-    - sqlclosecheck # Related to SQL.
+    - promlinter  # Related to prometheus.
+    - protogetter  # Related to protocol buffer.
+    - rowserrcheck  # Related to SQL.
+    - spancheck  # Related to OpenTelemetry
+    - sqlclosecheck  # Related to SQL.
     - tagliatelle
     - testpackage
     - thelper
