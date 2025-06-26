@@ -1,7 +1,6 @@
-from golangci_lint_linter import ProgramError
 from ruamel.yaml.comments import CommentedMap
 
-from golangci_lint_linter.rules import Rule, Report
+from golangci_lint_linter.rules import Rule, Report, validate_commented_map
 
 
 def _is_alphabetical(original: [str]) -> bool:
@@ -10,7 +9,7 @@ def _is_alphabetical(original: [str]) -> bool:
     return sorted_list == original
 
 
-class Alphabetical(object):
+class AlphabeticalLinters(object):
     """Rule to check that enable/disable linters are sorted alphabetically."""
 
     rule: Rule = Rule.GCI001
@@ -19,10 +18,7 @@ class Alphabetical(object):
         pass
 
     def lint(self, file: CommentedMap) -> [Report]:
-        if not file:
-            raise ProgramError("file not found")
-        if not isinstance(file, CommentedMap):
-            raise ProgramError("file is not CommentedMap")
+        validate_commented_map(file)
         reports: [Report] = []
         linters: CommentedMap = file["linters"]
         enable: [str] = linters.get("enable", default=[])

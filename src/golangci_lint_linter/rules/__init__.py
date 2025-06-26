@@ -2,9 +2,12 @@ from enum import Enum
 from typing import Protocol
 from ruamel.yaml.comments import CommentedMap
 
+from golangci_lint_linter import ProgramError
+
 
 class Rule(Enum):
     GCI001 = "GCI001"
+    GCI002 = "GCI002"
 
 
 class Report(object):
@@ -24,3 +27,11 @@ class Ruler(Protocol):
     def lint(self, file: CommentedMap) -> [Report]:
         """Lint the .golangci file."""
         ...
+
+
+def validate_commented_map(file: CommentedMap) -> None:
+    if not file:
+        raise ProgramError("file not found")
+    if not isinstance(file, CommentedMap):
+        raise ProgramError("file is not CommentedMap")
+    return
