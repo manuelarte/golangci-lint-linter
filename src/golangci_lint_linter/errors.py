@@ -1,9 +1,10 @@
 class ProgramError(Exception):
     """Exception raised for the tool golangci-lint-linter.
 
-        Attributes:
-            message -- explanation of the error
-        """
+    Attributes:
+        message -- explanation of the error
+    """
+
     message: str
     original_error: Exception | None
 
