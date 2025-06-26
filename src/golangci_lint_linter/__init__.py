@@ -41,10 +41,12 @@ def main(file: TextIO) -> int:
                 for rule_report in rule_reports:
                     reports.append(rule_report)
             except Exception as e:
-                click.secho(message=f"Internal error applying rule: {rule.rule}: {e}", err=True)
+                click.secho(
+                    message=f"Internal error applying rule: {rule.rule}: {e}", err=True
+                )
         click.echo(f"Summary: {len(reports)} error(s).")
         for report in reports:
-            click.secho(message=str(report), fg='red', err=True)
+            click.secho(message=str(report), fg="red", err=True)
     except ProgramError as e:
         click.echo(message=str(e), err=True)
 
