@@ -1,9 +1,10 @@
 import io
 
+from click.testing import CliRunner
 from ruamel.yaml.comments import CommentedMap
 from ruamel.yaml.tokens import CommentToken
 
-from golangci_lint_linter import read_yaml_file
+from golangci_lint_linter import read_yaml_file, main
 
 
 def test_comments_are_available():
@@ -31,3 +32,15 @@ def test_comments_are_available():
         == """# here are defined the formatters
           # enable the most used formatters  \n"""
     )
+
+
+def test_main_valid_golangci():
+    runner = CliRunner()
+    result = runner.invoke(main, ['../resources/examples/simple/.golangci.yml'])
+    assert result.exit_code == 0
+
+
+def test_main_invalid_golangci():
+    runner = CliRunner()
+    result = runner.invoke(main, ['../resources/examples/notvalid/.golangci.yml'])
+    assert result.exit_code == 0

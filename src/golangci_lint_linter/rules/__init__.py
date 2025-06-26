@@ -2,7 +2,7 @@ from enum import Enum
 from typing import Protocol
 from ruamel.yaml.comments import CommentedMap
 
-from golangci_lint_linter import ProgramError
+from golangci_lint_linter.errors.errors import ProgramError
 
 
 class Rule(Enum):
@@ -19,6 +19,9 @@ class Report(object):
     def __init__(self, rule: Rule, msg: str) -> None:
         self.rule = rule
         self.msg = msg
+
+    def __repr__(self) -> str:
+        return f"{self.rule.name}: {self.msg}"
 
 
 class Ruler(Protocol):

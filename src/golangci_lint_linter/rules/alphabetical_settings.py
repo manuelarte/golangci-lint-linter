@@ -1,3 +1,5 @@
+from typing import Any
+
 from ruamel.yaml.comments import CommentedMap
 
 from golangci_lint_linter.rules import Rule, Report, validate_commented_map
@@ -23,8 +25,12 @@ class AlphabeticalSettings(object):
     def lint(self, file: CommentedMap) -> [Report]:
         validate_commented_map(file)
         reports: [Report] = []
-        linters: CommentedMap = file["linters"]
+        linters: Any = file.get("linters", default=[])
+        if not isinstance(linters, CommentedMap):
+            return []
         settings: CommentedMap = linters.get("settings", default=CommentedMap())
+        if not isinstance(settings, CommentedMap):
+            return []
         keys: list[str] = list(settings.keys())
         if keys and not _is_alphabetical(keys):
             reports.append(
