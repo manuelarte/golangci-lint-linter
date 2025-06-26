@@ -1,8 +1,7 @@
 from golangci_lint_linter import ProgramError
-from golangci_lint_linter.analysis import Report
 from ruamel.yaml.comments import CommentedMap
 
-from golangci_lint_linter.rules import Rule
+from golangci_lint_linter.rules import Rule, Report
 
 
 def _is_alphabetical(original: [str]) -> bool:
