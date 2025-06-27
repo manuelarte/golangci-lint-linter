@@ -1,3 +1,4 @@
+import sys
 from typing import TextIO
 
 import click
@@ -47,6 +48,7 @@ def main(file: TextIO) -> int:
                 rule_reports: list[Report] = rule.lint(commented_map)
                 for rule_report in rule_reports:
                     reports.append(rule_report)
+                del rule_reports
             except Exception as e:
                 click.secho(
                     message=f"Internal error applying rule: {rule.rule}: {e}", err=True

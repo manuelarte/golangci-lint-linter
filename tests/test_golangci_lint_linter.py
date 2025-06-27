@@ -45,6 +45,7 @@ def test_main_invalid_golangci():
     result = runner.invoke(main, ["./tests/resources/examples/notvalid/.golangci.yml"])
     assert result.exit_code == 0
 
+
 def test_main_funcorder_golangci():
     runner = CliRunner()
     result = runner.invoke(main, ["./resources/examples/real_examples/funcorder.yml"])

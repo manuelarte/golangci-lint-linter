@@ -24,34 +24,31 @@ linters:
   default: all
   disable:
     - decorder
-    - dupl
-    - err113
-    - errchkjson
-    - exhaustruct
-    - forcetypeassert
+    - dupl  # Too many false positives.
+    - err113  # This leads to lots of unnecessary allocations and boilerplate.
+    - errchkjson  # no json.
+    - exhaustruct  # if applicable, to be checked in code reviews.
+    - forcetypeassert  # used in a different linter
     - ginkgolinter # Related to Ginkgo.
-    - goheader
-    - gomodguard
-    - gosmopolitan
-    - grouper
-    - importas
-    - inamedparam
-    - ireturn
-    - maintidx
-    - nlreturn
-    - paralleltest
-    - prealloc
+    - goheader  # no need of copyright headers.
+    - gomodguard  # not needed for a linter
+    - gosmopolitan  # no i18n.
+    - grouper  # no need of checking expression groups.
+    - importas  # no need of aliasing imports.
+    - inamedparam  # not important.
+    - ireturn  # no need for this linter here.
+    - paralleltest  # we can't test in parallel.
     - promlinter # Related to prometheus.
     - protogetter # Related to protocol buffer.
     - rowserrcheck # Related to SQL.
-    - spancheck # Related to OpenTelemetry
+    - spancheck # Related to OpenTelemetry.
     - sqlclosecheck # Related to SQL.
-    - tagliatelle
-    - testpackage
-    - thelper
-    - varnamelen
-    - wrapcheck
-    - zerologlint
+    - tagliatelle  # No need for tags.
+    - testpackage  # we are testing using google tools.
+    - thelper  # we are testing using google tools.
+    - varnamelen  # if applicable, to be checked in a code review.
+    - wrapcheck  # too many false positives for return values defined in internal packages.
+    - zerologlint  # not using zerolog.
 
   settings:
     cyclop:
