@@ -15,7 +15,13 @@ class LintersKeyOrder(object):
 
     def lint(self, file: CommentedMap) -> list[Report]:
         validate_commented_map(file)
-        all_linter_keys: list[str] = ["default", "enable", "disable", "settings", "exclusions"]
+        all_linter_keys: list[str] = [
+            "default",
+            "enable",
+            "disable",
+            "settings",
+            "exclusions",
+        ]
         reports: list[Report] = []
         linters: Any = file.get("linters", default=[])
         if not isinstance(linters, CommentedMap):

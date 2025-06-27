@@ -1,6 +1,6 @@
 from typing import Any
 
-from ruamel.yaml import CommentToken, CommentedSeq
+from ruamel.yaml import CommentedSeq
 from ruamel.yaml.comments import CommentedMap
 
 from golangci_lint_linter.rules import Rule, Report, validate_commented_map
@@ -28,7 +28,7 @@ class DisableLintersReason(object):
             reports.append(
                 Report(
                     self.rule,
-                    f"linters.disable have no reason(s).",
+                    "linters.disable have no reason(s).",
                 )
             )
         else:

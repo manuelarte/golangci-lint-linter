@@ -1,4 +1,3 @@
-import sys
 from typing import TextIO
 
 import click
@@ -19,7 +18,7 @@ def get_all_rules() -> list[Ruler]:
         AlphabeticalLinters(),
         AlphabeticalSettings(),
         LintersKeyOrder(),
-        DisableLintersReason()
+        DisableLintersReason(),
     ]
 
 
