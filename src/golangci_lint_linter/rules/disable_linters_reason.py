@@ -24,15 +24,23 @@ class DisableLintersReason(object):
         if not isinstance(disable, CommentedSeq):
             return []
         starting_idx: int = 0
-        for index_comment in disable.ca.items:
-            if index_comment != starting_idx:
-                reports.append(
-                    Report(
-                        self.rule,
-                        f"linters.disable.{disable[starting_idx]} has no reason.",
-                    )
+        if len(disable.ca.items) != len(disable):
+            reports.append(
+                Report(
+                    self.rule,
+                    f"linters.disable have no reason(s).",
                 )
-                break
-            starting_idx = starting_idx + 1
+            )
+        else:
+            for index_comment in disable.ca.items:
+                if index_comment != starting_idx:
+                    reports.append(
+                        Report(
+                            self.rule,
+                            f"linters.disable.{disable[starting_idx]} has no reason.",
+                        )
+                    )
+                    break
+                starting_idx = starting_idx + 1
 
         return reports
