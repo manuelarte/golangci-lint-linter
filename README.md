@@ -15,8 +15,10 @@ The list of linting rules can be found in [RULES.md](./RULES.md).
 The project is using [uv][uv], to run it:
 
 ```bash
-uv run golangci-lint-linter
+uv run golangci-lint-linter [FILE]
 ```
+
+- FILE: the path to the `.golangci.yml` to be linter.
 
 [golangci-lint]: https://golangci-lint.run/
 [uv]: https://docs.astral.sh/uv/
