@@ -8,6 +8,7 @@ from golangci_lint_linter.errors.errors import ProgramError
 class Rule(Enum):
     GCI001 = "GCI001"
     GCI002 = "GCI002"
+    GCI003 = "GCI003"
 
 
 class Report(object):
@@ -38,3 +39,9 @@ def validate_commented_map(file: CommentedMap) -> None:
     if not isinstance(file, CommentedMap):
         raise ProgramError("file is not CommentedMap")
     return
+
+
+def _is_alphabetical(original: list[str]) -> bool:
+    sorted_list: list[str] = original.copy()
+    sorted_list.sort()
+    return sorted_list == original

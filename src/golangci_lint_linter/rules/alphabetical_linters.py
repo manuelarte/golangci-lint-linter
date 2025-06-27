@@ -2,13 +2,12 @@ from typing import Any
 
 from ruamel.yaml.comments import CommentedMap
 
-from golangci_lint_linter.rules import Rule, Report, validate_commented_map
-
-
-def _is_alphabetical(original: list[str]) -> bool:
-    sorted_list: list[str] = original.copy()
-    sorted_list.sort()
-    return sorted_list == original
+from golangci_lint_linter.rules import (
+    Rule,
+    Report,
+    _is_alphabetical,
+    validate_commented_map,
+)
 
 
 class AlphabeticalLinters(object):
