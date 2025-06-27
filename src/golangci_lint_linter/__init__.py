@@ -9,10 +9,17 @@ from golangci_lint_linter.errors.errors import ProgramError
 from golangci_lint_linter.rules import Ruler, Report
 from golangci_lint_linter.rules.alphabetical_linters import AlphabeticalLinters
 from golangci_lint_linter.rules.alphabetical_settings import AlphabeticalSettings
+from golangci_lint_linter.rules.linters_keys_order import LintersKeyOrder
+from golangci_lint_linter.rules.disable_linters_reason import DisableLintersReason
 
 
 def get_all_rules() -> list[Ruler]:
-    return [AlphabeticalLinters(), AlphabeticalSettings()]
+    return [
+        AlphabeticalLinters(),
+        AlphabeticalSettings(),
+        LintersKeyOrder(),
+        DisableLintersReason()
+    ]
 
 
 def read_yaml_file(f: TextIO) -> CommentedMap:
