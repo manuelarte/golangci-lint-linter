@@ -36,11 +36,11 @@ def test_comments_are_available():
 
 def test_main_valid_golangci():
     runner = CliRunner()
-    result = runner.invoke(main, ["../resources/examples/simple/.golangci.yml"])
+    result = runner.invoke(main, ["./tests//resources/examples/simple/.golangci.yml"])
     assert result.exit_code == 0
 
 
 def test_main_invalid_golangci():
     runner = CliRunner()
-    result = runner.invoke(main, ["../resources/examples/notvalid/.golangci.yml"])
+    result = runner.invoke(main, ["./tests/resources/examples/notvalid/.golangci.yml"])
     assert result.exit_code == 0

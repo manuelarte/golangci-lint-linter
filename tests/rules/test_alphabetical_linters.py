@@ -19,7 +19,7 @@ linters:
 
     commented_map: CommentedMap = read_yaml_file(f)
     rule: AlphabeticalLinters = AlphabeticalLinters()
-    reports: [Report] = rule.lint(commented_map)
+    reports: list[Report] = rule.lint(commented_map)
     assert reports is not None
     assert len(reports) == 1
 
@@ -37,7 +37,7 @@ linters:
 
     commented_map: CommentedMap = read_yaml_file(f)
     rule: AlphabeticalLinters = AlphabeticalLinters()
-    reports: [Report] = rule.lint(commented_map)
+    reports: list[Report] = rule.lint(commented_map)
     assert reports is not None
     assert not reports
 
@@ -56,7 +56,7 @@ linters:
 
     commented_map: CommentedMap = read_yaml_file(f)
     rule: AlphabeticalLinters = AlphabeticalLinters()
-    reports: [Report] = rule.lint(commented_map)
+    reports: list[Report] = rule.lint(commented_map)
     assert reports is not None
     assert len(reports) == 1
 
@@ -70,6 +70,6 @@ def test_not_valid_golangci_but_valid_yaml():
 
     commented_map: CommentedMap = read_yaml_file(f)
     rule: AlphabeticalLinters = AlphabeticalLinters()
-    reports: [Report] = rule.lint(commented_map)
+    reports: list[Report] = rule.lint(commented_map)
     assert reports is not None
     assert len(reports) == 0

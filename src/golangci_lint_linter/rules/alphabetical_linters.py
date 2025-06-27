@@ -5,8 +5,8 @@ from ruamel.yaml.comments import CommentedMap
 from golangci_lint_linter.rules import Rule, Report, validate_commented_map
 
 
-def _is_alphabetical(original: [str]) -> bool:
-    sorted_list: [str] = original.copy()
+def _is_alphabetical(original: list[str]) -> bool:
+    sorted_list: list[str] = original.copy()
     sorted_list.sort()
     return sorted_list == original
 
@@ -19,9 +19,9 @@ class AlphabeticalLinters(object):
     def __init__(self) -> None:
         pass
 
-    def lint(self, file: CommentedMap) -> [Report]:
+    def lint(self, file: CommentedMap) -> list[Report]:
         validate_commented_map(file)
-        reports: [Report] = []
+        reports: list[Report] = []
         linters: Any = file.get("linters", default=[])
         if not isinstance(linters, CommentedMap):
             return []
@@ -30,7 +30,7 @@ class AlphabeticalLinters(object):
             reports.append(
                 Report(self.rule, "linters.enable not sorted alphabetically.")
             )
-        disable: [str] = linters.get("disable", default=[])
+        disable: list[str] = linters.get("disable", default=[])
         if disable and not _is_alphabetical(disable):
             reports.append(
                 Report(self.rule, "linters.disable not sorted alphabetically.")

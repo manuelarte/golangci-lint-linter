@@ -11,7 +11,7 @@ from golangci_lint_linter.rules.alphabetical_linters import AlphabeticalLinters
 from golangci_lint_linter.rules.alphabetical_settings import AlphabeticalSettings
 
 
-def get_all_rules() -> [Ruler]:
+def get_all_rules() -> list[Ruler]:
     return [AlphabeticalLinters(), AlphabeticalSettings()]
 
 
@@ -31,13 +31,13 @@ def main(file: TextIO) -> int:
     if not file.readable():
         click.echo(message=f"Cannot read: {file.name}.", err=True)
     click.echo(message=f"Linting: {file.name}.")
-    reports: [Report] = []
+    reports: list[Report] = []
     try:
         commented_map: CommentedMap = read_yaml_file(file)
-        lint_rules: [Ruler] = get_all_rules()
+        lint_rules: list[Ruler] = get_all_rules()
         for rule in lint_rules:
             try:
-                rule_reports: [Report] = rule.lint(commented_map)
+                rule_reports: list[Report] = rule.lint(commented_map)
                 for rule_report in rule_reports:
                     reports.append(rule_report)
             except Exception as e:
