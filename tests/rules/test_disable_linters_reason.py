@@ -51,6 +51,7 @@ linters:
     assert reports is not None
     assert len(reports) == 1
 
+
 def test_disable_linters_with_reason():
     f = io.StringIO(
         """

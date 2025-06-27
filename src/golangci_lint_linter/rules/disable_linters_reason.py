@@ -1,4 +1,4 @@
-from typing import Any, Iterable
+from typing import Any
 
 from ruamel.yaml import CommentToken, CommentedSeq
 from ruamel.yaml.comments import CommentedMap
@@ -24,7 +24,7 @@ class DisableLintersReason(object):
         if not isinstance(disable, CommentedSeq):
             return []
         for idx, linter in enumerate(disable):
-            if idx > len(disable.ca.items)-1 or not disable.ca.items[idx]:
+            if idx > len(disable.ca.items) - 1 or not disable.ca.items[idx]:
                 reports.append(
                     Report(
                         self.rule,
@@ -34,7 +34,7 @@ class DisableLintersReason(object):
                 break
             if idx < len(disable) and disable.ca.items[idx]:
                 comment: CommentToken = disable.ca.items[idx]
-                if len(comment) > 0 and len(comment[0].value) > 2 :
+                if len(comment) > 0 and len(comment[0].value) > 2:
                     continue
 
         return reports
