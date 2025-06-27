@@ -10,6 +10,8 @@ class Rule(Enum):
     GCI002 = "GCI002"
     GCI003 = "GCI003"
 
+    GCI020 = "GCI020"
+
 
 class Report(object):
     """Report a lint error"""
