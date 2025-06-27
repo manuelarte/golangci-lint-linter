@@ -3,6 +3,7 @@
 uv run ruff check --fix
 uv run ruff format
 uv run pytest
+uv lock
 markdownlint-cli2 ./**/*.md
 yamllint .
 

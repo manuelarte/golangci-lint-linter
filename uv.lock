@@ -41,7 +41,6 @@ source = { editable = "." }
 dependencies = [
     { name = "click" },
     { name = "ruamel-yaml" },
-    { name = "ruamel-yaml-string" },
 ]
 
 [package.dev-dependencies]
@@ -54,7 +53,6 @@ dev = [
 requires-dist = [
     { name = "click", specifier = ">=8.2.1" },
     { name = "ruamel-yaml", specifier = ">=0.18.14" },
-    { name = "ruamel-yaml-string", specifier = ">=0.1.1" },
 ]
 
 [package.metadata.requires-dev]
@@ -171,18 +169,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/87/b8/01c29b924dcbbed75cc45b30c30d565d763b9c4d540545a0eeecffb8f09c/ruamel.yaml.clib-0.2.12-cp313-cp313-musllinux_1_2_aarch64.whl", hash = "sha256:4f6f3eac23941b32afccc23081e1f50612bdbe4e982012ef4f5797986828cd01", size = 709059, upload-time = "2024-12-11T19:58:18.846Z" },
     { url = "https://files.pythonhosted.org/packages/30/8c/ed73f047a73638257aa9377ad356bea4d96125b305c34a28766f4445cc0f/ruamel.yaml.clib-0.2.12-cp313-cp313-win32.whl", hash = "sha256:6442cb36270b3afb1b4951f060eccca1ce49f3d087ca1ca4563a6eb479cb3de6", size = 98583, upload-time = "2024-10-20T10:13:09.658Z" },
     { url = "https://files.pythonhosted.org/packages/b0/85/e8e751d8791564dd333d5d9a4eab0a7a115f7e349595417fd50ecae3395c/ruamel.yaml.clib-0.2.12-cp313-cp313-win_amd64.whl", hash = "sha256:e5b8daf27af0b90da7bb903a876477a9e6d7270be6146906b276605997c7e9a3", size = 115190, upload-time = "2024-10-20T10:13:10.66Z" },
-]
-
-[[package]]
-name = "ruamel-yaml-string"
-version = "0.1.1"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "ruamel-yaml" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/11/47/fa7c06b8f9946fc9192cb4d944367f31197715915f5e71363909e8c35eb7/ruamel.yaml.string-0.1.1.tar.gz", hash = "sha256:7a7aedcc055d45c004d38b756f58474ebefb106851f4ce56ce58415709784350", size = 12678, upload-time = "2023-05-02T05:37:18.085Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/91/2a/b508237a7fcceab8a8724405480eb55d527523419c9dbcde369f954656ad/ruamel.yaml.string-0.1.1-py3-none-any.whl", hash = "sha256:eb146bcb42b116216638034a434e9cf3ae2a5d3933aa37183a9854b5f3ff42de", size = 4118, upload-time = "2023-05-02T05:37:20.332Z" },
 ]
 
 [[package]]
