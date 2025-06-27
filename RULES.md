@@ -1,8 +1,6 @@
 # Rules
 
-## Style Linters
-
-### Experimental: GCI001: Linters are sorted alphabetically
+## Experimental: GCI001: Linters are sorted alphabetically
 
 Linters lists are expected to be in alphabetical order, e.g.
 
@@ -34,7 +32,7 @@ linters:
 </tbody>
 </table>
 
-### Experimental: GCI002: Settings are sorted alphabetically
+## Experimental: GCI002: Settings are sorted alphabetically
 
 Linter's settings are expected to be sorted alphabetically, e.g.
 
@@ -73,7 +71,7 @@ linters:
 </tbody>
 </table>
 
-### Experimental: GCI013: Fields are sorted by, default, enabled, disabled
+## Experimental: GCI013: Fields are sorted by: default, enabled, disabled, exclusions
 
 The expected order for the `linters` field is:
 
@@ -81,6 +79,7 @@ The expected order for the `linters` field is:
 + enable
 + disable
 + settings
++ exclusions
 
 <table>
 <thead><tr><th>❌ Bad</th><th>✅ Good</th></tr></thead>
@@ -113,18 +112,50 @@ linters:
 </tbody>
 </table>
 
-## Documentation & Metadata
+## Experimental: GCI020: Warn for settings of not enabled linter
 
-### Experimental: GCI020: Warn for settings of not enabled linter
+TODO
 
-### Experimental: GCI021: Disabled linters have a reason
+## Experimental: GCI021: Disabled linters have a reason
 
-### Experimental: GCI022: Linter Suggestions
+Linters that are disabled need to have a comment, e.g.:
 
-    + gci with imports in standard, and then the rest.
-    + suggestions to use revive and var-naming and filename.
-    + replace interface{} to any.
+<table>
+<thead><tr><th>❌ Bad</th><th>✅ Good</th></tr></thead>
+<tbody>
+<tr><td>
 
-## Miscellaneous
+```yaml
+linters:
+  default: all
+  disable:
+    - asasalint
+    - ...
+  settings:
+    ...
+```
 
-### Experimental: GCI041:  Catch flaws in configuration
+</td><td>
+
+```yaml
+linters:
+  default: all
+  disable:
+    - asasalint  # to be checked in code review.
+    - ...
+  settings:
+    ...
+```
+
+</td></tr>
+
+</tbody>
+</table>
+
+## Experimental: GCI022: Linter Suggestions
+
+TODO
+
+## Experimental: GCI041:  Catch flaws in configuration
+
+TODO
