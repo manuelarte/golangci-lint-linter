@@ -1,6 +1,6 @@
 # Rules
 
-## Experimental: GCI001: Linters are sorted alphabetically
+## Experimental: GC001: Linters are sorted alphabetically
 
 Linters lists are expected to be in alphabetical order, e.g.
 
@@ -32,7 +32,7 @@ linters:
 </tbody>
 </table>
 
-## Experimental: GCI002: Settings are sorted alphabetically
+## Experimental: GC002: Settings are sorted alphabetically
 
 Linter's settings are expected to be sorted alphabetically, e.g.
 
@@ -71,7 +71,7 @@ linters:
 </tbody>
 </table>
 
-## Experimental: GCI013: Fields are sorted by: default, enabled, disabled, exclusions
+## Experimental: GC013: Fields are sorted by: default, enabled, disabled, exclusions
 
 The expected order for the `linters` field is:
 
@@ -112,11 +112,11 @@ linters:
 </tbody>
 </table>
 
-## Experimental: GCI020: Warn for settings of not enabled linter
+## Experimental: GC020: Warn for settings of not enabled linter
 
 TODO
 
-## Experimental: GCI021: Disabled linters have a reason
+## Experimental: GC021: Disabled linters have a reason
 
 Linters that are disabled need to have a comment, e.g.:
 
@@ -152,10 +152,10 @@ linters:
 </tbody>
 </table>
 
-## Experimental: GCI022: Linter Suggestions
+## Experimental: GC022: Linter Suggestions
 
 TODO
 
-## Experimental: GCI041:  Catch flaws in configuration
+## Experimental: GC041:  Catch flaws in configuration
 
 TODO
