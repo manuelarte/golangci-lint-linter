@@ -141,7 +141,7 @@ linters:
 linters:
   default: all
   disable:
-    - asasalint  # to be checked in code review.
+    - asasalint  # to be checked in code reviews.
     - ...
   settings:
     ...
