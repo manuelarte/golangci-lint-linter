@@ -23,7 +23,7 @@ def test_comments_are_available():
     )
 
     commented_map: CommentedMap = read_yaml_file(f)
-    formatters_comments: [CommentToken | None] = commented_map.ca.items["formatters"]
+    formatters_comments: list[CommentToken | None] = commented_map.ca.items["formatters"]
     formatters_comment_token: CommentToken = formatters_comments[2]
 
     assert isinstance(formatters_comment_token, CommentToken)

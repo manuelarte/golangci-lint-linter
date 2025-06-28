@@ -47,7 +47,7 @@ linters:
 
     commented_map: CommentedMap = read_yaml_file(f)
     rule: AlphabeticalSettings = AlphabeticalSettings()
-    reports: [Report] = rule.lint(commented_map)
+    reports: list[Report] = rule.lint(commented_map)
     assert reports is not None
     assert not reports
 

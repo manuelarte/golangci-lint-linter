@@ -1,5 +1,6 @@
 #!/bin/sh
 
+uvx ty check
 uv run ruff check tests --fix
 uv run ruff format --check tests
 uv run pytest
