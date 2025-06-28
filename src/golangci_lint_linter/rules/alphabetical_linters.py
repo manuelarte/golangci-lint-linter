@@ -24,7 +24,7 @@ class AlphabeticalLinters(object):
         linters: Any = file.get("linters", default=[])
         if not isinstance(linters, CommentedMap):
             return []
-        enable: [str] = linters.get("enable", default=[])
+        enable: list[str] = linters.get("enable", default=[])
         if enable and not _is_alphabetical(enable):
             reports.append(
                 Report(self.rule, "linters.enable not sorted alphabetically.")
