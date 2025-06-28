@@ -1,9 +1,9 @@
 #!/bin/sh
 
-uv run ruff check --fix
-uv run ruff format
+uv run ruff check tests --fix
+uv run ruff format --check tests
 uv run pytest
-uv lock
+uv sync --locked --all-extras --dev
 markdownlint-cli2 ./**/*.md
 yamllint .
 
