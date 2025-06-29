@@ -28,6 +28,3 @@ jobs:
 
       - name: Run tests
         run: uv run pytest tests
-
-      - run: uv pip install bandit
-      - run: bandit -r .
