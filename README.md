@@ -25,5 +25,15 @@ uv run golangci-lint-linter [FILE] [--fix]
 - `FILE`: the path to the `.golangci.yml` to be linter.
 - `fix`: update file to resolve fixable issues. Default `false`.
 
+## Publish Package
+
+To publish the package follow [Building and publishing a package](https://docs.astral.sh/uv/guides/package/#preparing-your-project-for-packaging):
+
+```bash
+uv build
+uv publish --token [TOKEN]
+```
+
+
 [golangci-lint]: https://golangci-lint.run/
 [uv]: https://docs.astral.sh/uv/
