@@ -2,6 +2,7 @@
 
 [![ci](https://github.com/manuelarte/golangci-lint-linter/actions/workflows/ci.yml/badge.svg)](https://github.com/manuelarte/golangci-lint-linter/actions/workflows/ci.yml)
 [![PR checks](https://github.com/manuelarte/golangci-lint-linter/actions/workflows/pr-checks.yml/badge.svg)](https://github.com/manuelarte/golangci-lint-linter/actions/workflows/pr-checks.yml)
+[![security: bandit](https://img.shields.io/badge/security-bandit-yellow.svg)](https://github.com/PyCQA/bandit)
 ![version](https://img.shields.io/github/v/release/manuelarte/golangci-lint-linter)
 
 Linter for the configuration files for the well known linter [`golangci-lint`][golangci-lint].

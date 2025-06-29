@@ -33,7 +33,12 @@ def read_yaml_file(f: TextIO) -> CommentedMap:
 
 @click.command()
 @click.argument("file", type=click.File("r"), default="./golangci-lint.yml")
-@click.option('--fix', default=False, show_default=False, help="update file to resolve fixable issues")
+@click.option(
+    "--fix",
+    default=False,
+    show_default=False,
+    help="update file to resolve fixable issues",
+)
 def main(file: TextIO, fix: bool) -> int:
     """Linter for the golanci-lint configuration file."""
     if not file.readable():
@@ -55,7 +60,9 @@ def main(file: TextIO, fix: bool) -> int:
                 del rule_reports
             except Exception as e:
                 click.secho(
-                    message=f"Internal error applying rule: {rule.rule}: {e}", fg="red", err=True
+                    message=f"Internal error applying rule: {rule.rule}: {e}",
+                    fg="red",
+                    err=True,
                 )
         click.echo(f"Summary: {len(reports)} error(s).")
         for report in reports:
