@@ -37,7 +37,10 @@ class AlphabeticalSettings(object):
         keys: list[str] = list(settings.keys())
         if keys and not _is_alphabetical(keys):
             reports.append(
-                Report(self.rule, f"[{settings.lc}]linters.settings not sorted alphabetically.")
+                Report(
+                    self.rule,
+                    f"[{settings.lc}]linters.settings not sorted alphabetically.",
+                )
             )
 
         return reports

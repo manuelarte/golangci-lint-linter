@@ -42,13 +42,19 @@ class AlphabeticalLinters(object):
         if isinstance(enable, CommentedSeq):
             if not _is_alphabetical(enable):
                 reports.append(
-                    Report(self.rule, f"[{enable.lc}]linters.enable not sorted alphabetically.")
+                    Report(
+                        self.rule,
+                        f"[{enable.lc}]linters.enable not sorted alphabetically.",
+                    )
                 )
         disable: Any = linters.get("disable", default=[])
         if isinstance(disable, CommentedSeq):
             if not _is_alphabetical(disable):
                 reports.append(
-                    Report(self.rule, f"[{disable.lc}]linters.disable not sorted alphabetically.")
+                    Report(
+                        self.rule,
+                        f"[{disable.lc}]linters.disable not sorted alphabetically.",
+                    )
                 )
 
         return reports
