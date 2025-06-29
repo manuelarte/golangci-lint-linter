@@ -6,7 +6,7 @@ from ruamel.yaml import YAML
 from ruamel.yaml.comments import CommentedMap
 
 from golangci_lint_linter.errors.errors import ProgramError
-from golangci_lint_linter.rules import Ruler, Report
+from golangci_lint_linter.rules import Ruler, Report, Fixer
 from golangci_lint_linter.rules.alphabetical_linters import AlphabeticalLinters
 from golangci_lint_linter.rules.alphabetical_settings import AlphabeticalSettings
 from golangci_lint_linter.rules.linters_keys_order import LintersKeyOrder
@@ -33,7 +33,8 @@ def read_yaml_file(f: TextIO) -> CommentedMap:
 
 @click.command()
 @click.argument("file", type=click.File("r"), default="./golangci-lint.yml")
-def main(file: TextIO) -> int:
+@click.option('--fix', default=False, show_default=False, help="update file to resolve fixable issues")
+def main(file: TextIO, fix: bool) -> int:
     """Linter for the golanci-lint configuration file."""
     if not file.readable():
         click.echo(message=f"Cannot read: {file.name}.", err=True)
@@ -45,12 +46,16 @@ def main(file: TextIO) -> int:
         for rule in lint_rules:
             try:
                 rule_reports: list[Report] = rule.lint(commented_map)
-                for rule_report in rule_reports:
-                    reports.append(rule_report)
+                if fix and isinstance(rule, Fixer):
+                    click.echo(f"Fixing linting issues {rule.rule}")
+                    rule.fix(file=commented_map)
+                else:
+                    for rule_report in rule_reports:
+                        reports.append(rule_report)
                 del rule_reports
             except Exception as e:
                 click.secho(
-                    message=f"Internal error applying rule: {rule.rule}: {e}", err=True
+                    message=f"Internal error applying rule: {rule.rule}: {e}", fg="red", err=True
                 )
         click.echo(f"Summary: {len(reports)} error(s).")
         for report in reports:

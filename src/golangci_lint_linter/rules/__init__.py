@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Protocol
+from typing import Protocol, runtime_checkable
 from ruamel.yaml.comments import CommentedMap
 
 from golangci_lint_linter.errors.errors import ProgramError
@@ -27,6 +27,7 @@ class Report(object):
         return f"{self.rule.name}: {self.msg}"
 
 
+@runtime_checkable
 class Ruler(Protocol):
     rule: Rule
 
@@ -35,6 +36,7 @@ class Ruler(Protocol):
         ...
 
 
+@runtime_checkable
 class Fixer(Protocol):
     def fix(self, file: CommentedMap):
         """Fix the .golangci file."""

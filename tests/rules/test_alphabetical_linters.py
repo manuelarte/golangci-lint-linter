@@ -93,7 +93,8 @@ linters:
     assert reports is not None
     assert not reports
 
-def test_disable_present_enable_absent_not_sorted_lint():
+
+def test_disable_present_enable_absent_not_sorted_fix():
     f = io.StringIO(
         """
 version: 2
