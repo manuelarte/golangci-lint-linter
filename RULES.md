@@ -32,6 +32,8 @@ linters:
 </tbody>
 </table>
 
+`--fix` option available.
+
 ## Experimental: GC002: Settings are sorted alphabetically
 
 Linter's settings are expected to be sorted alphabetically, e.g.
@@ -70,6 +72,8 @@ linters:
 
 </tbody>
 </table>
+
+`--fix` option available.
 
 ## Experimental: GC013: Fields are sorted by: default, enabled, disabled, exclusions
 

@@ -58,5 +58,3 @@ class AlphabeticalLinters(object):
         disable: Any = _get_disable(file)
         if isinstance(disable, CommentedSeq):
             disable.sort()
-
-

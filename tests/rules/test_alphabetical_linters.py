@@ -112,4 +112,3 @@ linters:
     reports: list[Report] = rule.lint(commented_map)
     assert reports is not None
     assert not reports
-

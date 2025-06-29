@@ -2,7 +2,7 @@
 
 uvx ty check
 uv run ruff check tests --fix
-uv run ruff format --check tests
+uv run ruff format tests
 uv run pytest
 uv sync --locked --all-extras --dev
 markdownlint-cli2 ./**/*.md
