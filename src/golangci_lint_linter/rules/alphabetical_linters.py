@@ -38,16 +38,18 @@ class AlphabeticalLinters(object):
         linters: Any = file.get("linters", default=[])
         if not isinstance(linters, CommentedMap):
             return []
-        enable: list[str] = _get_enable(file)
-        if enable and not _is_alphabetical(enable):
-            reports.append(
-                Report(self.rule, "linters.enable not sorted alphabetically.")
-            )
-        disable: list[str] = linters.get("disable", default=[])
-        if disable and not _is_alphabetical(disable):
-            reports.append(
-                Report(self.rule, "linters.disable not sorted alphabetically.")
-            )
+        enable: Any = _get_enable(file)
+        if isinstance(enable, CommentedSeq):
+            if not _is_alphabetical(enable):
+                reports.append(
+                    Report(self.rule, f"[{enable.lc}]linters.enable not sorted alphabetically.")
+                )
+        disable: Any = linters.get("disable", default=[])
+        if isinstance(disable, CommentedSeq):
+            if not _is_alphabetical(disable):
+                reports.append(
+                    Report(self.rule, f"[{disable.lc}]linters.disable not sorted alphabetically.")
+                )
 
         return reports
 

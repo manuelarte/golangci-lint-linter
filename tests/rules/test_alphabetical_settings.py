@@ -27,6 +27,10 @@ linters:
     reports: list[Report] = rule.lint(commented_map)
     assert reports is not None
     assert len(reports) == 1
+    assert (
+        str(reports[0])
+        == "GCI002: [LineCol(6, 4)]linters.settings not sorted alphabetically."
+    )
 
 
 def test_settings_sorted_lint():
@@ -63,7 +67,7 @@ def test_not_valid_golangci_but_valid_yaml_lint():
     rule: AlphabeticalSettings = AlphabeticalSettings()
     reports: list[Report] = rule.lint(commented_map)
     assert reports is not None
-    assert len(reports) == 0
+    assert not reports
 
 
 def test_settings_not_sorted_fix():

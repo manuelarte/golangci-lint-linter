@@ -24,7 +24,7 @@ linters:
     rule: DisableLintersReason = DisableLintersReason()
     reports: list[Report] = rule.lint(commented_map)
     assert reports is not None
-    assert len(reports) == 0
+    assert not reports
 
 
 def test_disable_linters_no_reason():
@@ -50,6 +50,9 @@ linters:
     reports: list[Report] = rule.lint(commented_map)
     assert reports is not None
     assert len(reports) == 1
+    assert (
+        str(reports[0]) == "GCI003: [LineCol(6, 4)]linters.disable have no reason(s)."
+    )
 
 
 def test_disable_linters_with_reason():
@@ -88,4 +91,4 @@ def test_not_valid_golangci_but_valid_yaml():
     rule: DisableLintersReason = DisableLintersReason()
     reports: list[Report] = rule.lint(commented_map)
     assert reports is not None
-    assert len(reports) == 0
+    assert not reports
