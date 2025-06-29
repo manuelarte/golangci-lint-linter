@@ -35,6 +35,12 @@ class Ruler(Protocol):
         ...
 
 
+class Fixer(Protocol):
+    def fix(self, file: CommentedMap):
+        """Fix the .golangci file."""
+        ...
+
+
 def validate_commented_map(file: CommentedMap) -> None:
     if not file:
         raise ProgramError("file not found")
