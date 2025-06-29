@@ -38,7 +38,7 @@ class Ruler(Protocol):
 
 @runtime_checkable
 class Fixer(Protocol):
-    def fix(self, file: CommentedMap):
+    def fix(self, file: CommentedMap) -> None:
         """Fix the .golangci file."""
         ...
 

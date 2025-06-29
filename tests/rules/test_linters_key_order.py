@@ -6,7 +6,7 @@ from golangci_lint_linter.rules import Report
 from golangci_lint_linter.rules.linters_keys_order import LintersKeyOrder
 
 
-def test_linter_keys_not_sorted():
+def test_linter_keys_not_sorted_lint():
     f = io.StringIO(
         """
 version: 2
@@ -67,3 +67,28 @@ def test_not_valid_golangci_but_valid_yaml():
     reports: list[Report] = rule.lint(commented_map)
     assert reports is not None
     assert len(reports) == 0
+
+
+def test_linter_keys_not_sorted_fix():
+    f = io.StringIO(
+        """
+version: 2
+linters:
+  disable:
+    - funcorder
+    - tagliatelle
+  default: all  
+  settings:
+    tagliatelle:
+        prop: value
+    funcorder:
+        prop: value
+    """.lstrip()
+    )
+
+    commented_map: CommentedMap = read_yaml_file(f)
+    rule: LintersKeyOrder = LintersKeyOrder()
+    rule.fix(commented_map)
+    reports: list[Report] = rule.lint(commented_map)
+    assert reports is not None
+    assert not reports
