@@ -28,7 +28,7 @@ class DisableLintersReason(object):
             reports.append(
                 Report(
                     self.rule,
-                    "linters.disable have no reason(s).",
+                    f"[{disable.lc}]linters.disable have no reason(s).",
                 )
             )
         else:
@@ -37,7 +37,7 @@ class DisableLintersReason(object):
                     reports.append(
                         Report(
                             self.rule,
-                            f"linters.disable.{disable[starting_idx]} has no reason.",
+                            f"[{disable.lc}]linters.disable.{disable[starting_idx]} has no reason.",
                         )
                     )
                     break
