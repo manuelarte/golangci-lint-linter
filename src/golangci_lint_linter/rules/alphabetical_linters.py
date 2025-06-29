@@ -1,6 +1,6 @@
 from typing import Any
 
-from ruamel.yaml.comments import CommentedMap
+from ruamel.yaml.comments import CommentedSeq, CommentedMap
 
 from golangci_lint_linter.rules import (
     Rule,
@@ -8,6 +8,20 @@ from golangci_lint_linter.rules import (
     _is_alphabetical,
     validate_commented_map,
 )
+
+
+def _get_enable(file: CommentedMap) -> Any:
+    linters: Any = file.get("linters", default=[])
+    if not isinstance(linters, CommentedMap):
+        return []
+    return linters.get("enable", default=[])
+
+
+def _get_disable(file: CommentedMap) -> Any:
+    linters: Any = file.get("linters", default=[])
+    if not isinstance(linters, CommentedMap):
+        return []
+    return linters.get("disable", default=[])
 
 
 class AlphabeticalLinters(object):
@@ -24,7 +38,7 @@ class AlphabeticalLinters(object):
         linters: Any = file.get("linters", default=[])
         if not isinstance(linters, CommentedMap):
             return []
-        enable: list[str] = linters.get("enable", default=[])
+        enable: list[str] = _get_enable(file)
         if enable and not _is_alphabetical(enable):
             reports.append(
                 Report(self.rule, "linters.enable not sorted alphabetically.")
@@ -36,3 +50,11 @@ class AlphabeticalLinters(object):
             )
 
         return reports
+
+    def fix(self, file: CommentedMap) -> None:
+        enable: Any = _get_enable(file)
+        if isinstance(enable, CommentedSeq):
+            enable.sort()
+        disable: Any = _get_disable(file)
+        if isinstance(disable, CommentedSeq):
+            disable.sort()

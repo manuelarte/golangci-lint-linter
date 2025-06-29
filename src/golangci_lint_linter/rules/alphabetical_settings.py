@@ -10,6 +10,13 @@ from golangci_lint_linter.rules import (
 )
 
 
+def _get_settings(file: CommentedMap) -> Any | None:
+    linters: Any = file.get("linters", default=[])
+    if not isinstance(linters, CommentedMap):
+        return None
+    return linters.get("settings")
+
+
 class AlphabeticalSettings(object):
     """Rule to check that linters' settings are sorted alphabetically."""
 
@@ -24,10 +31,7 @@ class AlphabeticalSettings(object):
     def lint(self, file: CommentedMap) -> list[Report]:
         validate_commented_map(file)
         reports: list[Report] = []
-        linters: Any = file.get("linters", default=[])
-        if not isinstance(linters, CommentedMap):
-            return []
-        settings: CommentedMap = linters.get("settings", default=CommentedMap())
+        settings: Any = _get_settings(file)
         if not isinstance(settings, CommentedMap):
             return []
         keys: list[str] = list(settings.keys())
@@ -37,3 +41,10 @@ class AlphabeticalSettings(object):
             )
 
         return reports
+
+    def fix(self, file: CommentedMap) -> None:
+        settings: Any = _get_settings(file)
+        if isinstance(settings, CommentedMap):
+            for key in sorted(settings, reverse=True):
+                value = settings.pop(key)
+                settings.insert(0, key, value)
