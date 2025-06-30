@@ -1,7 +1,8 @@
 import io
 
+from ruamel.yaml import YAML
 from ruamel.yaml.comments import CommentedMap
-from golangci_lint_linter import read_yaml_file
+from golangci_lint_linter import read_yaml_file, create_yaml_parser
 from golangci_lint_linter.rules import Report
 from golangci_lint_linter.rules.linters_keys_order import LintersKeyOrder
 
@@ -23,7 +24,8 @@ linters:
     """.lstrip()
     )
 
-    commented_map: CommentedMap = read_yaml_file(f)
+    yaml: YAML = create_yaml_parser()
+    commented_map: CommentedMap = read_yaml_file(yaml, f)
     rule: LintersKeyOrder = LintersKeyOrder()
     reports: list[Report] = rule.lint(commented_map)
     assert reports is not None
@@ -48,7 +50,8 @@ linters:
     """.lstrip()
     )
 
-    commented_map: CommentedMap = read_yaml_file(f)
+    yaml: YAML = create_yaml_parser()
+    commented_map: CommentedMap = read_yaml_file(yaml, f)
     rule: LintersKeyOrder = LintersKeyOrder()
     reports: list[Report] = rule.lint(commented_map)
     assert reports is not None
@@ -62,7 +65,8 @@ def test_not_valid_golangci_but_valid_yaml():
     """.lstrip()
     )
 
-    commented_map: CommentedMap = read_yaml_file(f)
+    yaml: YAML = create_yaml_parser()
+    commented_map: CommentedMap = read_yaml_file(yaml, f)
     rule: LintersKeyOrder = LintersKeyOrder()
     reports: list[Report] = rule.lint(commented_map)
     assert reports is not None
@@ -86,7 +90,8 @@ linters:
     """.lstrip()
     )
 
-    commented_map: CommentedMap = read_yaml_file(f)
+    yaml: YAML = create_yaml_parser()
+    commented_map: CommentedMap = read_yaml_file(yaml, f)
     rule: LintersKeyOrder = LintersKeyOrder()
     rule.fix(commented_map)
     reports: list[Report] = rule.lint(commented_map)
