@@ -1,4 +1,5 @@
-from typing import TextIO
+import sys
+from typing import TextIO, Any
 
 import click
 
@@ -22,10 +23,14 @@ def get_all_rules() -> list[Ruler]:
     ]
 
 
-def read_yaml_file(f: TextIO) -> CommentedMap:
+def create_yaml_parser() -> YAML:
     yaml = YAML()
     yaml.preserve_quotes = True
-    parsed = yaml.load(f)
+    return yaml
+
+
+def read_yaml_file(yaml: YAML, f: TextIO) -> CommentedMap:
+    parsed: Any = yaml.load(f)
     if not isinstance(parsed, CommentedMap):
         raise ProgramError("Error parsing the yaml file")
     return parsed
@@ -43,10 +48,13 @@ def main(file: TextIO, fix: bool) -> int:
     """Linter for the golanci-lint configuration file."""
     if not file.readable():
         click.echo(message=f"Cannot read: {file.name}.", err=True)
+
+    yaml: YAML = create_yaml_parser()
+
     click.echo(message=f"Linting: {file.name}.")
     reports: list[Report] = []
     try:
-        commented_map: CommentedMap = read_yaml_file(file)
+        commented_map: CommentedMap = read_yaml_file(yaml, file)
         lint_rules: list[Ruler] = get_all_rules()
         for rule in lint_rules:
             try:
@@ -67,6 +75,9 @@ def main(file: TextIO, fix: bool) -> int:
         click.echo(f"Summary: {len(reports)} error(s).")
         for report in reports:
             click.secho(message=str(report), fg="red", err=True)
+
+        if fix:
+            yaml.dump(commented_map, file)
     except ProgramError as e:
         click.echo(message=str(e), err=True)
 

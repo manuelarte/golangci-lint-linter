@@ -3,8 +3,9 @@ import io
 from click.testing import CliRunner
 from ruamel.yaml.comments import CommentedMap
 from ruamel.yaml.tokens import CommentToken
+from ruamel.yaml import YAML
 
-from golangci_lint_linter import read_yaml_file, main
+from golangci_lint_linter import create_yaml_parser, read_yaml_file, main
 
 
 def test_comments_are_available():
@@ -22,7 +23,8 @@ def test_comments_are_available():
     """.lstrip()
     )
 
-    commented_map: CommentedMap = read_yaml_file(f)
+    yaml: YAML = create_yaml_parser()
+    commented_map: CommentedMap = read_yaml_file(yaml, f)
     formatters_comments: list[CommentToken | None] = commented_map.ca.items[
         "formatters"
     ]
