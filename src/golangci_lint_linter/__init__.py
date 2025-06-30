@@ -1,4 +1,3 @@
-import sys
 from typing import TextIO, Any
 
 import click
@@ -26,6 +25,9 @@ def get_all_rules() -> list[Ruler]:
 def create_yaml_parser() -> YAML:
     yaml = YAML()
     yaml.preserve_quotes = True
+    # TODO(manuelarte): Think of having this as a parameter,
+    #  or being able to extract it from the current file
+    yaml.indent(mapping=2, sequence=4, offset=2)
     return yaml
 
 
@@ -37,7 +39,7 @@ def read_yaml_file(yaml: YAML, f: TextIO) -> CommentedMap:
 
 
 @click.command()
-@click.argument("file", type=click.File("r"), default="./golangci-lint.yml")
+@click.argument("file", type=click.File("r+"), default="./golangci-lint.yml")
 @click.option(
     "--fix",
     default=False,
@@ -77,7 +79,9 @@ def main(file: TextIO, fix: bool) -> int:
             click.secho(message=str(report), fg="red", err=True)
 
         if fix:
+            file.seek(0)
             yaml.dump(commented_map, file)
+            file.truncate()
     except ProgramError as e:
         click.echo(message=str(e), err=True)
 
