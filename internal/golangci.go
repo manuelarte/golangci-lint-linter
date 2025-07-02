@@ -13,6 +13,7 @@ var (
 type (
 	Golangci interface {
 		GetLinters() (Linters, bool)
+		GetComment(path string) (string, bool)
 	}
 
 	Linters interface {
@@ -55,6 +56,19 @@ func (g YamlGolangci) GetLinters() (Linters, bool) {
 		fields: linters,
 		cm:     g.cm,
 	}, true
+}
+
+func (g YamlGolangci) GetComment(path string) (string, bool) {
+	comments, ok := g.cm[path]
+	if !ok {
+		return "", false
+	}
+	for _, comment := range comments {
+		if comment.Position == yaml.CommentLinePosition {
+			return comment.Texts[0], true
+		}
+	}
+	return "", false
 }
 
 func (l YamlLinters) GetEnable() ([]string, bool) {
