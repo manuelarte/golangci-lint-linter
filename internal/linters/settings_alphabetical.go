@@ -32,10 +32,12 @@ func (l SettingsAlphabetical) Lint(golangci internal.Golangci) []internal.Report
 		return nil
 	}
 
+	println(settings)
+
 	return reports
 }
 
-func isAlphabetical(original []string) bool {
+func areSettingsAlphabetical(original []string) bool {
 	sorted := slices.Clone(original)
 	slices.Sort(sorted)
 

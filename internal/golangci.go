@@ -111,8 +111,8 @@ func getKey[T any](fields yaml.MapSlice, key string) (T, bool) {
 			continue
 		}
 
-		value, isT := field.Value.(T)
-		if !isT {
+		value, isTypeT := field.Value.(T)
+		if !isTypeT {
 			return zero, false
 		}
 
