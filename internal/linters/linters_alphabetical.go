@@ -1,8 +1,6 @@
 package linters
 
 import (
-	"slices"
-
 	"github.com/manuelarte/golangci-lint-linter-go/internal"
 )
 
@@ -30,7 +28,7 @@ func (l LintersAlphabetical) Lint(golangci internal.Golangci) []internal.Report 
 	{
 		enable, hasEnable := linters.GetEnable()
 		if hasEnable {
-			if !isAlphabetical(enable) {
+			if !internal.IsAlphabetical(enable) {
 				reports = append(reports, internal.Report{
 					Rule:    l.rule,
 					Message: "linters.enable are not sorted alphabetically",
@@ -41,7 +39,7 @@ func (l LintersAlphabetical) Lint(golangci internal.Golangci) []internal.Report 
 	{
 		disable, hasDisable := linters.GetDisable()
 		if hasDisable {
-			if !isAlphabetical(disable) {
+			if !internal.IsAlphabetical(disable) {
 				reports = append(reports, internal.Report{
 					Rule:    l.rule,
 					Message: "linters.disable are not sorted alphabetically",
@@ -51,11 +49,4 @@ func (l LintersAlphabetical) Lint(golangci internal.Golangci) []internal.Report 
 	}
 
 	return reports
-}
-
-func isAlphabetical(original []string) bool {
-	sorted := slices.Clone(original)
-	slices.Sort(sorted)
-
-	return internal.EqualArray(original, sorted)
 }

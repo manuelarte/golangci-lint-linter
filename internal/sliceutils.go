@@ -1,6 +1,9 @@
 package internal
 
-import "cmp"
+import (
+	"cmp"
+	"slices"
+)
 
 func EqualArray[S ~[]E, E cmp.Ordered](a, b S) bool {
 	if len(a) != len(b) {
@@ -14,6 +17,13 @@ func EqualArray[S ~[]E, E cmp.Ordered](a, b S) bool {
 	}
 
 	return true
+}
+
+func IsAlphabetical(original []string) bool {
+	sorted := slices.Clone(original)
+	slices.Sort(sorted)
+
+	return EqualArray(original, sorted)
 }
 
 func Transform[T any](original []any, f func(a any) (T, bool)) ([]T, bool) {

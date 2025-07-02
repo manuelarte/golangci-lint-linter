@@ -1,6 +1,8 @@
 package internal
 
-import "github.com/goccy/go-yaml"
+import (
+	"github.com/goccy/go-yaml"
+)
 
 var (
 	_ Golangci = new(YamlGolangci)
@@ -19,7 +21,10 @@ type (
 		GetSettings() (Settings, bool)
 	}
 
-	Settings interface{}
+	Settings interface {
+		GetSetting(key string) (interface{}, bool)
+		GetKeys() ([]string, bool)
+	}
 
 	YamlGolangci struct {
 		fields yaml.MapSlice
@@ -80,6 +85,20 @@ func (l YamlLinters) GetSettings() (Settings, bool) {
 		fields: settings,
 		cm:     l.cm,
 	}, true
+}
+
+func (y YamlSettings) GetSetting(key string) (any, bool) {
+	return getKey[map[string]any](y.fields, key)
+}
+
+func (y YamlSettings) GetKeys() ([]string, bool) {
+	keys := make([]string, 0, len(y.fields))
+	for _, k := range y.fields {
+		if casted, ok := k.Key.(string); ok {
+			keys = append(keys, casted)
+		}
+	}
+	return keys, true
 }
 
 func Parse(input []byte) (Golangci, error) {

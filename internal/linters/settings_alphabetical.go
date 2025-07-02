@@ -1,8 +1,6 @@
 package linters
 
 import (
-	"slices"
-
 	"github.com/manuelarte/golangci-lint-linter-go/internal"
 )
 
@@ -32,14 +30,17 @@ func (l SettingsAlphabetical) Lint(golangci internal.Golangci) []internal.Report
 		return nil
 	}
 
-	println(settings)
+	keys, ok := settings.GetKeys()
+	if !ok {
+		return nil
+	}
+
+	if !internal.IsAlphabetical(keys) {
+		reports = append(reports, internal.Report{
+			Rule:    l.rule,
+			Message: "linters.settings are not sorted alphabetically",
+		})
+	}
 
 	return reports
-}
-
-func areSettingsAlphabetical(original []string) bool {
-	sorted := slices.Clone(original)
-	slices.Sort(sorted)
-
-	return internal.EqualArray(original, sorted)
 }
