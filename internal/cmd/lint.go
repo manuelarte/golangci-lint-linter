@@ -42,6 +42,13 @@ func run(cmd *cobra.Command, args []string) {
 	allReports := make([]internal.Report, 0)
 	for _, linter := range getAllLinters() {
 		linterReports := linter.Lint(golangci)
+
+		if len(linterReports) > 0 {
+			if fixer, ok := linter.(linters.Fixer); ok {
+				fixer.Fix(golangci)
+			}
+		}
+
 		allReports = append(allReports, linterReports...)
 	}
 

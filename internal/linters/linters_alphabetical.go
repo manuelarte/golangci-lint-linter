@@ -20,33 +20,41 @@ func NewLintersAlphabetical() *LintersAlphabetical {
 func (l LintersAlphabetical) Lint(golangci internal.Golangci) []internal.Report {
 	reports := make([]internal.Report, 0)
 
-	linters, ok := golangci.GetLinters()
-	if !ok {
-		return nil
+	enable, disable := l.getEnableAndDisable(golangci)
+	if !internal.IsAlphabetical(enable) {
+		reports = append(reports, internal.Report{
+			Rule:    l.rule,
+			Message: "linters.enable are not sorted alphabetically",
+		})
 	}
 
-	{
-		enable, hasEnable := linters.GetEnable()
-		if hasEnable {
-			if !internal.IsAlphabetical(enable) {
-				reports = append(reports, internal.Report{
-					Rule:    l.rule,
-					Message: "linters.enable are not sorted alphabetically",
-				})
-			}
-		}
-	}
-	{
-		disable, hasDisable := linters.GetDisable()
-		if hasDisable {
-			if !internal.IsAlphabetical(disable) {
-				reports = append(reports, internal.Report{
-					Rule:    l.rule,
-					Message: "linters.disable are not sorted alphabetically",
-				})
-			}
-		}
+	if !internal.IsAlphabetical(disable) {
+		reports = append(reports, internal.Report{
+			Rule:    l.rule,
+			Message: "linters.disable are not sorted alphabetically",
+		})
 	}
 
 	return reports
+}
+
+func (l LintersAlphabetical) Fix(golangci internal.Golangci) {
+	// linters, ok := golangci.GetLinters()
+}
+
+func (l LintersAlphabetical) getEnableAndDisable(golangci internal.Golangci) (enable []string, disable []string) {
+	linters, ok := golangci.GetLinters()
+	if !ok {
+		return
+	}
+
+	e, hasEnable := linters.GetEnable()
+	if hasEnable {
+		enable = e
+	}
+	d, hasDisable := linters.GetDisable()
+	if hasDisable {
+		disable = d
+	}
+	return
 }
