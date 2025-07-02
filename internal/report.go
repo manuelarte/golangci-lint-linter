@@ -1,5 +1,7 @@
 package internal
 
+import "fmt"
+
 type RuleCode string
 
 const (
@@ -11,4 +13,8 @@ const (
 type Report struct {
 	Rule    RuleCode
 	Message string
+}
+
+func (r Report) String() string {
+	return fmt.Sprintf("%s: %s", r.Rule, r.Message)
 }
