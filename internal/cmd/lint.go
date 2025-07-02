@@ -41,7 +41,7 @@ func run(cmd *cobra.Command, args []string) {
 func readYamlFile(path string) (internal.Golangci, error) {
 	input, errReadingFile := os.ReadFile(filepath.Clean(path))
 	if errReadingFile != nil {
-		return internal.Golangci{}, errReadingFile
+		return internal.YamlGolangci{}, errReadingFile
 	}
 
 	return internal.Parse(input)

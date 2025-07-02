@@ -2,33 +2,57 @@ package internal
 
 import "github.com/goccy/go-yaml"
 
+var (
+	_ Golangci = new(YamlGolangci)
+	_ Linters  = new(YamlLinters)
+	_ Settings = new(YamlSettings)
+)
+
 type (
-	Golangci struct {
+	Golangci interface {
+		GetLinters() (Linters, bool)
+	}
+
+	Linters interface {
+		GetEnable() ([]string, bool)
+		GetDisable() ([]string, bool)
+		GetSettings() (Settings, bool)
+	}
+
+	Settings interface{}
+
+	YamlGolangci struct {
 		fields yaml.MapSlice
 
 		cm map[string][]*yaml.Comment
 	}
 
-	Linters struct {
+	YamlLinters struct {
+		fields yaml.MapSlice
+
+		cm map[string][]*yaml.Comment
+	}
+
+	YamlSettings struct {
 		fields yaml.MapSlice
 
 		cm map[string][]*yaml.Comment
 	}
 )
 
-func (g Golangci) GetLinters() (Linters, bool) {
+func (g YamlGolangci) GetLinters() (Linters, bool) {
 	linters, ok := getKey[yaml.MapSlice](g.fields, "linters")
 	if !ok {
-		return Linters{}, false
+		return YamlLinters{}, false
 	}
 
-	return Linters{
+	return YamlLinters{
 		fields: linters,
 		cm:     g.cm,
 	}, true
 }
 
-func (l Linters) GetEnable() ([]string, bool) {
+func (l YamlLinters) GetEnable() ([]string, bool) {
 	enableInterface, ok := getKey[[]any](l.fields, "enable")
 	if !ok {
 		return nil, false
@@ -37,13 +61,25 @@ func (l Linters) GetEnable() ([]string, bool) {
 	return Transform[string](enableInterface, anyToString)
 }
 
-func (l Linters) GetDisable() ([]string, bool) {
+func (l YamlLinters) GetDisable() ([]string, bool) {
 	disableInterface, ok := getKey[[]any](l.fields, "disable")
 	if !ok {
 		return nil, false
 	}
 
 	return Transform[string](disableInterface, anyToString)
+}
+
+func (l YamlLinters) GetSettings() (Settings, bool) {
+	settings, ok := getKey[yaml.MapSlice](l.fields, "settings")
+	if !ok {
+		return nil, false
+	}
+
+	return YamlSettings{
+		fields: settings,
+		cm:     l.cm,
+	}, true
 }
 
 func Parse(input []byte) (Golangci, error) {
@@ -53,10 +89,10 @@ func Parse(input []byte) (Golangci, error) {
 
 	err := yaml.UnmarshalWithOptions(input, &fields, yaml.UseOrderedMap(), yaml.CommentToMap(cm))
 	if err != nil {
-		return Golangci{}, err
+		return YamlGolangci{}, err
 	}
 
-	return Golangci{
+	return YamlGolangci{
 		fields: fields,
 		cm:     cm,
 	}, nil
