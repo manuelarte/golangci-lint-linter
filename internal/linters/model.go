@@ -7,5 +7,5 @@ type Linter interface {
 }
 
 type Fixer interface {
-	Fix(golangci internal.Golangci)
+	Fix(golangci internal.Golangci) error
 }

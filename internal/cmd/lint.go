@@ -49,7 +49,12 @@ func run(cmd *cobra.Command, args []string) {
 
 		if len(linterReports) > 0 {
 			if fixer, ok := linter.(linters.Fixer); ok {
-				fixer.Fix(golangci)
+				errFix := fixer.Fix(golangci)
+				if errFix != nil {
+					errorMsg := errorColor.Sprintf("Error applying fix: %s", errFix)
+					cmd.PrintErrf("%s\n", errorMsg)
+					os.Exit(1)
+				}
 			}
 		}
 

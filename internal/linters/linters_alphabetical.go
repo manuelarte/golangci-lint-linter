@@ -38,8 +38,9 @@ func (l LintersAlphabetical) Lint(golangci internal.Golangci) []internal.Report 
 	return reports
 }
 
-func (l LintersAlphabetical) Fix(_ internal.Golangci) {
+func (l LintersAlphabetical) Fix(_ internal.Golangci) error {
 	// linters, ok := golangci.GetLinters()
+	return nil
 }
 
 //nolint:nonamedreturns // two return same type
