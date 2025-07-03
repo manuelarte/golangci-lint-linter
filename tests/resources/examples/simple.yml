@@ -24,11 +24,11 @@ formatters:
 linters:
   default: all
   disable:
-    - decorder
-    - dupl
     - err113
     - errchkjson
     - exhaustruct
+    - decorder
+    - dupl
     - forcetypeassert
     - ginkgolinter  # Related to Ginkgo.
     - goheader
