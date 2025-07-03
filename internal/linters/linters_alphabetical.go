@@ -38,11 +38,12 @@ func (l LintersAlphabetical) Lint(golangci internal.Golangci) []internal.Report 
 	return reports
 }
 
-func (l LintersAlphabetical) Fix(golangci internal.Golangci) {
+func (l LintersAlphabetical) Fix(_ internal.Golangci) {
 	// linters, ok := golangci.GetLinters()
 }
 
-func (l LintersAlphabetical) getEnableAndDisable(golangci internal.Golangci) (enable []string, disable []string) {
+//nolint:nonamedreturns // two return same type
+func (l LintersAlphabetical) getEnableAndDisable(golangci internal.Golangci) (enable, disable []string) {
 	linters, ok := golangci.GetLinters()
 	if !ok {
 		return
@@ -52,9 +53,11 @@ func (l LintersAlphabetical) getEnableAndDisable(golangci internal.Golangci) (en
 	if hasEnable {
 		enable = e
 	}
+
 	d, hasDisable := linters.GetDisable()
 	if hasDisable {
 		disable = d
 	}
+
 	return
 }

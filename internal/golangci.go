@@ -24,7 +24,7 @@ type (
 	}
 
 	Settings interface {
-		GetSetting(key string) (interface{}, bool)
+		GetSetting(key string) (any, bool)
 		GetKeys() ([]string, bool)
 	}
 
@@ -61,11 +61,13 @@ func (g YamlGolangci) GetComment(path string) (string, bool) {
 	if !ok {
 		return "", false
 	}
+
 	for _, comment := range comments {
 		if comment.Position == yaml.CommentLinePosition {
 			return comment.Texts[0], true
 		}
 	}
+
 	return "", false
 }
 
@@ -105,6 +107,7 @@ func (l YamlLinters) GetSettings() (Settings, bool) {
 
 func (y YamlSettings) GetSetting(key string) (any, bool) {
 	r, _, ok := getKey[map[string]any](*y.fields, key)
+
 	return r, ok
 }
 
@@ -115,6 +118,7 @@ func (y YamlSettings) GetKeys() ([]string, bool) {
 			keys = append(keys, casted)
 		}
 	}
+
 	return keys, true
 }
 

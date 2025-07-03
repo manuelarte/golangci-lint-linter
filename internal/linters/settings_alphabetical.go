@@ -6,7 +6,6 @@ import (
 
 var _ Linter = new(SettingsAlphabetical)
 
-//nolint:revive // is checking alphabetical order for the linters
 type SettingsAlphabetical struct {
 	rule internal.RuleCode
 }

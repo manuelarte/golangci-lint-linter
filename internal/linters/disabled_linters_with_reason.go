@@ -2,12 +2,12 @@ package linters
 
 import (
 	"fmt"
+
 	"github.com/manuelarte/golangci-lint-linter-go/internal"
 )
 
 var _ Linter = new(DisabledLintersWithReason)
 
-//nolint:revive // is checking alphabetical order for the linters
 type DisabledLintersWithReason struct {
 	rule internal.RuleCode
 }
@@ -38,6 +38,7 @@ func (l DisabledLintersWithReason) Lint(golangci internal.Golangci) []internal.R
 				Rule:    l.rule,
 				Message: fmt.Sprintf("linters.disable.%s does not have a reason", disable),
 			})
+
 			break
 		}
 	}

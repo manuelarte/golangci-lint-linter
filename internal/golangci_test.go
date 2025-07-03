@@ -36,7 +36,7 @@ version: 2 # the version
 				t.Fatal(err)
 			}
 
-			if bytes.Compare(actual, test.expected) != 0 {
+			if !bytes.Equal(actual, test.expected) {
 				t.Errorf("actual = %q, expected = %q", actual, test.expected)
 			}
 		})

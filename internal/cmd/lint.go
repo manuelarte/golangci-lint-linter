@@ -1,17 +1,18 @@
 package cmd
 
 import (
-	"github.com/fatih/color"
-	"github.com/manuelarte/golangci-lint-linter-go/internal/linters"
 	"os"
 	"path/filepath"
 	"runtime/debug"
 
+	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 
 	"github.com/manuelarte/golangci-lint-linter-go/internal"
+	"github.com/manuelarte/golangci-lint-linter-go/internal/linters"
 )
 
+//nolint:gochecknoglobals // color red
 var errorColor = color.New(color.FgRed)
 
 func RegisterLintCommand() *cobra.Command {
@@ -35,11 +36,14 @@ func run(cmd *cobra.Command, args []string) {
 	golangci, err := readYamlFile(path)
 	if err != nil {
 		cmd.PrintErrf("error reading yaml file: %s\n", err)
+
 		return
 	}
 
 	cmd.Printf("Linting: %q\n", path)
+
 	allReports := make([]internal.Report, 0)
+
 	for _, linter := range getAllLinters() {
 		linterReports := linter.Lint(golangci)
 
@@ -53,10 +57,12 @@ func run(cmd *cobra.Command, args []string) {
 	}
 
 	cmd.Printf("Found: %d issue(s)\n", len(allReports))
+
 	for _, report := range allReports {
 		errorMsg := errorColor.Sprintf("%s", report)
 		cmd.PrintErrf("%s\n", errorMsg)
 	}
+
 	if len(allReports) > 0 {
 		os.Exit(1)
 	}
