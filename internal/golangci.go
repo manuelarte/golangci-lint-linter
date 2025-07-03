@@ -30,25 +30,22 @@ type (
 
 	YamlGolangci struct {
 		fields *yaml.MapSlice
-
-		cm map[string][]*yaml.Comment
+		cm     map[string][]*yaml.Comment
 	}
 
 	YamlLinters struct {
 		fields *yaml.MapSlice
-
-		cm map[string][]*yaml.Comment
+		cm     map[string][]*yaml.Comment
 	}
 
 	YamlSettings struct {
 		fields *yaml.MapSlice
-
-		cm map[string][]*yaml.Comment
+		cm     map[string][]*yaml.Comment
 	}
 )
 
 func (g YamlGolangci) GetLinters() (Linters, bool) {
-	linters, ok := getKey[yaml.MapSlice](*g.fields, "linters")
+	linters, _, ok := getKey[yaml.MapSlice](*g.fields, "linters")
 	if !ok {
 		return YamlLinters{}, false
 	}
@@ -77,7 +74,7 @@ func (g YamlGolangci) Marshal() ([]byte, error) {
 }
 
 func (l YamlLinters) GetEnable() ([]string, bool) {
-	enableInterface, ok := getKey[[]any](*l.fields, "enable")
+	enableInterface, _, ok := getKey[[]any](*l.fields, "enable")
 	if !ok {
 		return nil, false
 	}
@@ -86,7 +83,7 @@ func (l YamlLinters) GetEnable() ([]string, bool) {
 }
 
 func (l YamlLinters) GetDisable() ([]string, bool) {
-	disableInterface, ok := getKey[[]any](*l.fields, "disable")
+	disableInterface, _, ok := getKey[[]any](*l.fields, "disable")
 	if !ok {
 		return nil, false
 	}
@@ -95,7 +92,7 @@ func (l YamlLinters) GetDisable() ([]string, bool) {
 }
 
 func (l YamlLinters) GetSettings() (Settings, bool) {
-	settings, ok := getKey[yaml.MapSlice](*l.fields, "settings")
+	settings, _, ok := getKey[yaml.MapSlice](*l.fields, "settings")
 	if !ok {
 		return nil, false
 	}
@@ -107,7 +104,8 @@ func (l YamlLinters) GetSettings() (Settings, bool) {
 }
 
 func (y YamlSettings) GetSetting(key string) (any, bool) {
-	return getKey[map[string]any](*y.fields, key)
+	r, _, ok := getKey[map[string]any](*y.fields, key)
+	return r, ok
 }
 
 func (y YamlSettings) GetKeys() ([]string, bool) {
@@ -136,13 +134,13 @@ func Parse(input []byte) (Golangci, error) {
 	}, nil
 }
 
-func getKey[T any](fields yaml.MapSlice, key string) (T, bool) {
+func getKey[T any](fields yaml.MapSlice, key string) (T, int, bool) {
 	var zero T
 
-	for _, field := range fields {
+	for i, field := range fields {
 		k, isString := field.Key.(string)
 		if !isString {
-			return zero, false
+			return zero, 0, false
 		}
 
 		if key != k {
@@ -151,13 +149,13 @@ func getKey[T any](fields yaml.MapSlice, key string) (T, bool) {
 
 		value, isTypeT := field.Value.(T)
 		if !isTypeT {
-			return zero, false
+			return zero, 0, false
 		}
 
-		return value, true
+		return value, i, true
 	}
 
-	return zero, false
+	return zero, 0, false
 }
 
 func anyToString(a any) (string, bool) {
