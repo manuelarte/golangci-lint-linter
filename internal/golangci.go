@@ -158,9 +158,9 @@ func (l YamlLinters) sort(original []string, cmPath func(index int) string) ([]s
 	slices.Sort(sorted)
 
 	for sortedIndex, linter := range sorted {
-		if comment, hasComment := commentIndexedByLinter[linter]; hasComment {
+		originalIndex := slices.Index(original, linter)
+		if comment, hasComment := commentIndexedByLinter[linter]; hasComment && originalIndex != sortedIndex {
 			l.cm[cmPath(sortedIndex)] = comment
-			originalIndex := slices.Index(original, linter)
 			delete(l.cm, cmPath(originalIndex))
 		}
 	}
