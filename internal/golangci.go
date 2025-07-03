@@ -1,13 +1,24 @@
 package internal
 
 import (
+	"errors"
+	"fmt"
+	"slices"
+
 	"github.com/goccy/go-yaml"
 )
+
+var errLintersEnableNotFound = errors.New("linters.enable not found")
 
 var (
 	_ Golangci = new(YamlGolangci)
 	_ Linters  = new(YamlLinters)
 	_ Settings = new(YamlSettings)
+
+	//nolint:gochecknoglobals // ignore this
+	cmEnablePath = func(index int) string { return fmt.Sprintf("$.linters.enable[%d]", index) }
+	//nolint:gochecknoglobals // ignore this
+	cmDisablePath = func(index int) string { return fmt.Sprintf("$.linters.disable[%d]", index) }
 )
 
 type (
@@ -21,6 +32,9 @@ type (
 		GetEnable() ([]string, bool)
 		GetDisable() ([]string, bool)
 		GetSettings() (Settings, bool)
+
+		SortEnable() error
+		SortDisable() error
 	}
 
 	Settings interface {
@@ -72,7 +86,7 @@ func (g YamlGolangci) GetComment(path string) (string, bool) {
 }
 
 func (g YamlGolangci) Marshal() ([]byte, error) {
-	return yaml.MarshalWithOptions(g.fields, yaml.WithComment(g.cm))
+	return yaml.MarshalWithOptions(g.fields, yaml.IndentSequence(true), yaml.WithComment(g.cm))
 }
 
 func (l YamlLinters) GetEnable() ([]string, bool) {
@@ -103,6 +117,83 @@ func (l YamlLinters) GetSettings() (Settings, bool) {
 		fields: &settings,
 		cm:     l.cm,
 	}, true
+}
+
+func (l YamlLinters) SortEnable() error {
+	enable, ok := l.GetEnable()
+	if !ok {
+		return nil
+	}
+
+	sorted, hasSorted := l.sort(enable, cmEnablePath)
+	if !hasSorted {
+		return nil
+	}
+
+	return l.replace("enable", sorted)
+}
+
+func (l YamlLinters) SortDisable() error {
+	disable, ok := l.GetDisable()
+	if !ok {
+		return nil
+	}
+
+	sorted, hasSorted := l.sort(disable, cmDisablePath)
+	if !hasSorted {
+		return nil
+	}
+
+	return l.replace("disable", sorted)
+}
+
+func (l YamlLinters) sort(original []string, cmPath func(index int) string) ([]string, bool) {
+	if IsAlphabetical(original) {
+		return nil, false
+	}
+
+	commentIndexedByLinter := l.indexLintersComments(original, cmPath)
+
+	sorted := slices.Clone(original)
+	slices.Sort(sorted)
+
+	for sortedIndex, linter := range sorted {
+		if comment, hasComment := commentIndexedByLinter[linter]; hasComment {
+			l.cm[cmPath(sortedIndex)] = comment
+			originalIndex := slices.Index(original, linter)
+			delete(l.cm, cmPath(originalIndex))
+		}
+	}
+
+	return sorted, true
+}
+
+func (l YamlLinters) indexLintersComments(original []string, cmPath func(index int) string) map[string][]*yaml.Comment {
+	indexMap := make(map[string][]*yaml.Comment)
+
+	for index, linter := range original {
+		if comment, hasComment := l.cm[cmPath(index)]; hasComment {
+			indexMap[linter] = comment
+		}
+	}
+
+	return indexMap
+}
+
+func (l YamlLinters) replace(path string, n []string) error {
+	_, index, ok := getKey[[]any](*l.fields, path)
+	if !ok {
+		return errLintersEnableNotFound
+	}
+
+	v := *l.fields
+	original := v[index]
+	v[index] = yaml.MapItem{
+		Key:   original.Key,
+		Value: n,
+	}
+
+	return nil
 }
 
 func (y YamlSettings) GetSetting(key string) (any, bool) {

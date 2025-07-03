@@ -1,6 +1,7 @@
 package linters
 
 import (
+	"reflect"
 	"testing"
 
 	"github.com/manuelarte/golangci-lint-linter-go/internal"
@@ -76,7 +77,6 @@ linters:
 	}
 }
 
-/*
 func TestLintersAlphabetical_Fix(t *testing.T) {
 	testCases := map[string]struct {
 		input    []byte
@@ -86,24 +86,22 @@ func TestLintersAlphabetical_Fix(t *testing.T) {
 			input: []byte(`
 version: 2
 `),
-			expected: []byte(`
-version: 2
-`),
+			expected: []byte("version: 2\n"),
 		},
 		"linters enable not sorted alphabetically": {
 			input: []byte(`
 version: 2
 linters:
   enable:
-    - tagliatelle  # make sure all the json tags are following the same pattern
+    - tagliatelle # make sure all the json tags are following the same pattern
     - funcorder
 `),
-			expected: []byte(`
-version: 2
+			expected: []byte(
+				`version: 2
 linters:
   enable:
-	- funcorder
-    - tagliatelle  # make sure all the json tags are following the same pattern
+    - funcorder
+    - tagliatelle # make sure all the json tags are following the same pattern
 `),
 		},
 		"linters enable sorted alphabetically": {
@@ -111,14 +109,14 @@ linters:
 version: 2
 linters:
   enable:
-    - funcorder  # method order
+    - funcorder # method order
     - tagliatelle
 `),
-			expected: []byte(`
-version: 2
+			expected: []byte(
+				`version: 2
 linters:
   enable:
-    - funcorder  # method order
+    - funcorder # method order
     - tagliatelle
 `),
 		},
@@ -127,15 +125,15 @@ linters:
 version: 2
 linters:
   disable:
-    - tagliatelle
+    - tagliatelle # not needed
     - funcorder
 `),
-			expected: []byte(`
-version: 2
+			expected: []byte(
+				`version: 2
 linters:
   disable:
     - funcorder
-    - tagliatelle
+    - tagliatelle # not needed
 `),
 		},
 		"linters disable sorted alphabetically": {
@@ -144,14 +142,14 @@ version: 2
 linters:
   disable:
     - funcorder
-    - tagliatelle
+    - tagliatelle # not needed
 `),
-			expected: []byte(`
-version: 2
+			expected: []byte(
+				`version: 2
 linters:
   disable:
     - funcorder
-    - tagliatelle
+    - tagliatelle # not needed
 `),
 		},
 	}
@@ -165,14 +163,15 @@ linters:
 
 			lint := NewLintersAlphabetical()
 			lint.Fix(golangci)
+
 			actual, err := golangci.(internal.YamlGolangci).Marshal()
 			if err != nil {
 				t.Fatal(err)
 			}
+
 			if !reflect.DeepEqual(actual, test.expected) {
 				t.Errorf("got %#v, want %#v", string(actual), string(test.expected))
 			}
 		})
 	}
 }
-*/

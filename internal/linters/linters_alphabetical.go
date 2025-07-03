@@ -38,8 +38,22 @@ func (l LintersAlphabetical) Lint(golangci internal.Golangci) []internal.Report 
 	return reports
 }
 
-func (l LintersAlphabetical) Fix(_ internal.Golangci) error {
-	// linters, ok := golangci.GetLinters()
+func (l LintersAlphabetical) Fix(golangci internal.Golangci) error {
+	linters, ok := golangci.GetLinters()
+	if !ok {
+		return nil
+	}
+
+	err := linters.SortEnable()
+	if err != nil {
+		return err
+	}
+
+	err = linters.SortDisable()
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
