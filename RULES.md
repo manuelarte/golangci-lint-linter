@@ -116,10 +116,6 @@ linters:
 </tbody>
 </table>
 
-## Experimental: GC020: Warn for settings of not enabled linter
-
-TODO
-
 ## Experimental: GC021: Disabled linters have a reason
 
 Linters that are disabled need to have a comment, e.g.:
@@ -155,11 +151,3 @@ linters:
 
 </tbody>
 </table>
-
-## Experimental: GC022: Linter Suggestions
-
-TODO
-
-## Experimental: GC041:  Catch flaws in configuration
-
-TODO
