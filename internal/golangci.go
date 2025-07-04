@@ -4,9 +4,9 @@ import (
 	"errors"
 	"fmt"
 	"slices"
+	"strings"
 
 	"github.com/goccy/go-yaml"
-	"strings"
 )
 
 var errLintersEnableNotFound = errors.New("linters.enable not found")
@@ -230,6 +230,7 @@ func (y YamlSettings) Sort() error {
 	}
 
 	slices.SortFunc(*y.fields, func(a, b yaml.MapItem) int {
+		//nolint:errcheck // already checked with GetKeys
 		return strings.Compare(a.Key.(string), b.Key.(string))
 	})
 

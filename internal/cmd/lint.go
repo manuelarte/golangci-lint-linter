@@ -1,11 +1,12 @@
 package cmd
 
 import (
-	"github.com/fatih/color"
-	"github.com/spf13/cobra"
 	"os"
 	"path/filepath"
 	"runtime/debug"
+
+	"github.com/fatih/color"
+	"github.com/spf13/cobra"
 
 	"github.com/manuelarte/golangci-lint-linter-go/internal"
 	"github.com/manuelarte/golangci-lint-linter-go/internal/linters"
@@ -31,10 +32,12 @@ func RegisterLintCommand() *cobra.Command {
 
 func run(cmd *cobra.Command, args []string) {
 	path := args[0]
+
 	isFix, err := cmd.Flags().GetBool("fix")
 	if err != nil {
 		errorMsg := errorColor.Sprintf("Error reading flag fix: %s\n", err)
 		cmd.PrintErrln(errorMsg)
+
 		return
 	}
 
@@ -75,13 +78,14 @@ func run(cmd *cobra.Command, args []string) {
 	}
 
 	if isFix {
-		fixedFile, err := golangci.Marshal()
-		if err != nil {
-			errorMsg := errorColor.Sprintf("Error Marshaling file: %s\n", err)
+		fixedFile, errM := golangci.Marshal()
+		if errM != nil {
+			errorMsg := errorColor.Sprintf("Error Marshaling file: %s\n", errM)
 			cmd.PrintErrf(errorMsg)
 			os.Exit(1)
 		}
-		err = os.WriteFile(path, fixedFile, 0o644)
+
+		err = os.WriteFile(path, fixedFile, 0o600)
 		if err != nil {
 			errorMsg := errorColor.Sprintf("Error writing file: %s\n", err)
 			cmd.PrintErrf(errorMsg)

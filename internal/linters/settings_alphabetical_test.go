@@ -1,10 +1,10 @@
 package linters
 
 import (
+	"reflect"
 	"testing"
 
 	"github.com/manuelarte/golangci-lint-linter-go/internal"
-	"reflect"
 )
 
 func TestSettingsAlphabetical_Lint(t *testing.T) {
@@ -137,6 +137,7 @@ linters:
       propTagliatelle: valueTagliatelle
 `),
 		},
+		// TODO: Add tests with comments
 	}
 
 	for name, test := range testCases {
@@ -147,6 +148,7 @@ linters:
 			}
 
 			lint := NewSettingsAlphabetical()
+
 			err = lint.Fix(golangci)
 			if err != nil {
 				t.Fatal(err)

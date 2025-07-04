@@ -162,6 +162,7 @@ linters:
 			}
 
 			lint := NewLintersAlphabetical()
+
 			err = lint.Fix(golangci)
 			if err != nil {
 				t.Fatal(err)

@@ -19,8 +19,8 @@ func NewSettingsAlphabetical() *SettingsAlphabetical {
 func (l SettingsAlphabetical) Lint(golangci internal.Golangci) []internal.Report {
 	reports := make([]internal.Report, 0)
 
-	keys, ok := l.getSettingsKeys(golangci)
-	if !ok {
+	keys, hasKeys := l.getSettingsKeys(golangci)
+	if !hasKeys {
 		return nil
 	}
 
@@ -39,6 +39,7 @@ func (l SettingsAlphabetical) Fix(golangci internal.Golangci) error {
 	if !ok {
 		return nil
 	}
+
 	return linters.SortSettings()
 }
 

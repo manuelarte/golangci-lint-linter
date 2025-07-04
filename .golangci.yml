@@ -34,6 +34,7 @@ linters:
     - gomodguard # Not needed for a linter
     - gosmopolitan # No i18n.
     - grouper # No need of checking expression groups.
+    - godox # Adding some TODOs
     - importas # No need of aliasing imports.
     - inamedparam # Not important.
     - ireturn # No need for this linter here.
