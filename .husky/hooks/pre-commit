@@ -1,7 +1,8 @@
 #!/bin/sh
 
 markdownlint-cli2 ./**/*.md
-codespell .
 yamllint .
+codespell .
+typos .
 go test ./...
 

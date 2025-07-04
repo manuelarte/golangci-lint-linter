@@ -1,0 +1,2 @@
+[files]
+extend-exclude = ["tests/resources/examples/**/*.yml", "**/*.gen.go", "golangci.jsonschema.json"]
