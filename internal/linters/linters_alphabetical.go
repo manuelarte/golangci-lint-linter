@@ -21,14 +21,14 @@ func (l LintersAlphabetical) Lint(golangci internal.Golangci) []internal.Report 
 	reports := make([]internal.Report, 0)
 
 	enable, disable := l.getEnableAndDisable(golangci)
-	if !internal.IsAlphabetical(enable) {
+	if _, ok := internal.IsAlphabetical(enable); !ok {
 		reports = append(reports, internal.Report{
 			Rule:    l.rule,
 			Message: "linters.enable are not sorted alphabetically",
 		})
 	}
 
-	if !internal.IsAlphabetical(disable) {
+	if _, ok := internal.IsAlphabetical(disable); !ok {
 		reports = append(reports, internal.Report{
 			Rule:    l.rule,
 			Message: "linters.disable are not sorted alphabetically",

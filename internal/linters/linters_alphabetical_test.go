@@ -162,7 +162,10 @@ linters:
 			}
 
 			lint := NewLintersAlphabetical()
-			lint.Fix(golangci)
+			err = lint.Fix(golangci)
+			if err != nil {
+				t.Fatal(err)
+			}
 
 			actual, err := golangci.(internal.YamlGolangci).Marshal()
 			if err != nil {

@@ -6,6 +6,7 @@ import (
 	"slices"
 
 	"github.com/goccy/go-yaml"
+	"strings"
 )
 
 var errLintersEnableNotFound = errors.New("linters.enable not found")
@@ -35,11 +36,13 @@ type (
 
 		SortEnable() error
 		SortDisable() error
+		SortSettings() error
 	}
 
 	Settings interface {
 		GetSetting(key string) (any, bool)
 		GetKeys() ([]string, bool)
+		Sort() error
 	}
 
 	YamlGolangci struct {
@@ -147,15 +150,22 @@ func (l YamlLinters) SortDisable() error {
 	return l.replace("disable", sorted)
 }
 
+func (l YamlLinters) SortSettings() error {
+	settings, ok := l.GetSettings()
+	if !ok {
+		return nil
+	}
+
+	return settings.Sort()
+}
+
 func (l YamlLinters) sort(original []string, cmPath func(index int) string) ([]string, bool) {
-	if IsAlphabetical(original) {
+	sorted, isSorted := IsAlphabetical(original)
+	if isSorted {
 		return nil, false
 	}
 
 	commentIndexedByLinter := l.indexLintersComments(original, cmPath)
-
-	sorted := slices.Clone(original)
-	slices.Sort(sorted)
 
 	for sortedIndex, linter := range sorted {
 		originalIndex := slices.Index(original, linter)
@@ -211,6 +221,19 @@ func (y YamlSettings) GetKeys() ([]string, bool) {
 	}
 
 	return keys, true
+}
+
+func (y YamlSettings) Sort() error {
+	_, ok := y.GetKeys()
+	if !ok {
+		return nil
+	}
+
+	slices.SortFunc(*y.fields, func(a, b yaml.MapItem) int {
+		return strings.Compare(a.Key.(string), b.Key.(string))
+	})
+
+	return nil
 }
 
 func Parse(input []byte) (Golangci, error) {
