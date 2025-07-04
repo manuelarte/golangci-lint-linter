@@ -65,9 +65,10 @@ func run(cmd *cobra.Command, args []string) {
 					os.Exit(1)
 				}
 			}
+		} else {
+			allReports = append(allReports, linterReports...)
 		}
 
-		allReports = append(allReports, linterReports...)
 	}
 
 	cmd.Printf("Found: %d issue(s)\n", len(allReports))
