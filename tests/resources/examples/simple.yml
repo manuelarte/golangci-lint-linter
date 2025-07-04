@@ -54,6 +54,19 @@ linters:
     - wrapcheck
     - zerologlint
 
+  exclusions:
+    presets:
+      - comments
+      - common-false-positives
+      - std-error-handling
+    rules:
+      - linters:
+          - errcheck
+          - funlen
+          - goconst
+          - gosec
+        path: _test\.go
+
   settings:
     cyclop:
       max-complexity: 30
@@ -149,19 +162,6 @@ linters:
       align: false
     usetesting:
       os-temp-dir: true
-
-  exclusions:
-    presets:
-      - comments
-      - common-false-positives
-      - std-error-handling
-    rules:
-      - linters:
-          - errcheck
-          - funlen
-          - goconst
-          - gosec
-        path: _test\.go
 
 issues:
   max-same-issues: 0

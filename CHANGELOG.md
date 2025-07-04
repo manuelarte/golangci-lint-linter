@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added RULES:
-  - GC001: Linters are sorted alphabetically
-  - GC002: Settings are sorted alphabetically
-  - GC021: Disabled linters have a reason
+  - GC001: Linters are sorted alphabetically.
+  - GC002: Settings are sorted alphabetically.
+  - GC013: Fields are sorted by: default, enabled, disabled, settings, exclusions.
+  - GC021: Disabled linters have a reason.

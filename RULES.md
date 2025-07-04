@@ -75,7 +75,7 @@ linters:
 
 `--fix` option available.
 
-## Experimental: GC013: Fields are sorted by: default, enabled, disabled, exclusions
+## Experimental: GC013: Fields are sorted by: default, enabled, disabled, settings, exclusions
 
 The expected order for the `linters` field is:
 

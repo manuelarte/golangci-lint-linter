@@ -7,6 +7,7 @@ type RuleCode string
 const (
 	GC001 = RuleCode("GC001")
 	GC002 = RuleCode("GC002")
+	GC013 = RuleCode("GC013")
 	GC021 = RuleCode("GC021")
 )
 

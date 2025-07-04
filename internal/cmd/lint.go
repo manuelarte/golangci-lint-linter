@@ -110,6 +110,7 @@ func readYamlFile(path string) (internal.Golangci, error) {
 
 func getAllLinters() []linters.Linter {
 	return []linters.Linter{
+		linters.NewLinterFieldsSorted(),
 		linters.NewLintersAlphabetical(),
 		linters.NewSettingsAlphabetical(),
 		linters.NewDisabledLintersWithReason(),

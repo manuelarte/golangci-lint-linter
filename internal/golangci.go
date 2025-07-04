@@ -6,6 +6,7 @@ import (
 	"slices"
 	"strings"
 
+	"cmp"
 	"github.com/goccy/go-yaml"
 )
 
@@ -32,10 +33,12 @@ type (
 	Linters interface {
 		GetEnable() ([]string, bool)
 		GetDisable() ([]string, bool)
+		GetFieldNames() ([]string, bool)
 		GetSettings() (Settings, bool)
 
 		SortEnable() error
 		SortDisable() error
+		SortFields(order map[string]int) error
 		SortSettings() error
 	}
 
@@ -110,6 +113,16 @@ func (l YamlLinters) GetDisable() ([]string, bool) {
 	return Transform[string](disableInterface, anyToString)
 }
 
+func (l YamlLinters) GetFieldNames() ([]string, bool) {
+	fields := make([]string, 0, len(*l.fields))
+	for _, field := range *l.fields {
+		if s, isString := field.Key.(string); isString {
+			fields = append(fields, s)
+		}
+	}
+	return fields, true
+}
+
 func (l YamlLinters) GetSettings() (Settings, bool) {
 	settings, _, ok := getKey[yaml.MapSlice](*l.fields, "settings")
 	if !ok {
@@ -148,6 +161,27 @@ func (l YamlLinters) SortDisable() error {
 	}
 
 	return l.replace("disable", sorted)
+}
+
+func (l YamlLinters) SortFields(expectedOrder map[string]int) error {
+	slices.SortFunc(*l.fields, func(a, b yaml.MapItem) int {
+
+		aString, isAString := a.Key.(string)
+		bString, isBString := b.Key.(string)
+
+		if isAString && isBString {
+			aIndex, hasA := expectedOrder[a.Key.(string)]
+			bIndex, hasB := expectedOrder[b.Key.(string)]
+			if !hasA && !hasB {
+				return cmp.Compare(aIndex, bIndex)
+			} else {
+				strings.Compare(aString, bString)
+			}
+		}
+
+		return 0
+	})
+	return nil
 }
 
 func (l YamlLinters) SortSettings() error {
