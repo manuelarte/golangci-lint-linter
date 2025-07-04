@@ -8,8 +8,8 @@ import (
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 
-	"github.com/manuelarte/golangci-lint-linter-go/internal"
-	"github.com/manuelarte/golangci-lint-linter-go/internal/linters"
+	"github.com/manuelarte/golangci-lint-linter/internal"
+	"github.com/manuelarte/golangci-lint-linter/internal/linters"
 )
 
 //nolint:gochecknoglobals // color red
