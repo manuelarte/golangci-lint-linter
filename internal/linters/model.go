@@ -1,6 +1,6 @@
 package linters
 
-import "github.com/manuelarte/golangci-lint-linter-go/internal"
+import "github.com/manuelarte/golangci-lint-linter/internal"
 
 type Linter interface {
 	Lint(golangci internal.Golangci) []internal.Report

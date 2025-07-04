@@ -3,7 +3,7 @@ package linters
 import (
 	"testing"
 
-	"github.com/manuelarte/golangci-lint-linter-go/internal"
+	"github.com/manuelarte/golangci-lint-linter/internal"
 )
 
 func TestDisabledLintersWithReason_Lint(t *testing.T) {

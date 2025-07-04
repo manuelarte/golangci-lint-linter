@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/manuelarte/golangci-lint-linter-go/internal/cmd"
+	"github.com/manuelarte/golangci-lint-linter/internal/cmd"
 )
 
 func main() {

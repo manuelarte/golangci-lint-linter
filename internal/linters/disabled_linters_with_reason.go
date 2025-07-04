@@ -3,7 +3,7 @@ package linters
 import (
 	"fmt"
 
-	"github.com/manuelarte/golangci-lint-linter-go/internal"
+	"github.com/manuelarte/golangci-lint-linter/internal"
 )
 
 var _ Linter = new(DisabledLintersWithReason)

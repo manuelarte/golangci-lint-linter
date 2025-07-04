@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/manuelarte/golangci-lint-linter-go/internal"
+	"github.com/manuelarte/golangci-lint-linter/internal"
 )
 
 func TestSettingsAlphabetical_Lint(t *testing.T) {
