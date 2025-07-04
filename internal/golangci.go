@@ -1,12 +1,12 @@
 package internal
 
 import (
+	"cmp"
 	"errors"
 	"fmt"
 	"slices"
 	"strings"
 
-	"cmp"
 	"github.com/goccy/go-yaml"
 )
 
@@ -120,6 +120,7 @@ func (l YamlLinters) GetFieldNames() ([]string, bool) {
 			fields = append(fields, s)
 		}
 	}
+
 	return fields, true
 }
 
@@ -165,22 +166,23 @@ func (l YamlLinters) SortDisable() error {
 
 func (l YamlLinters) SortFields(expectedOrder map[string]int) error {
 	slices.SortFunc(*l.fields, func(a, b yaml.MapItem) int {
-
 		aString, isAString := a.Key.(string)
 		bString, isBString := b.Key.(string)
 
 		if isAString && isBString {
-			aIndex, hasA := expectedOrder[a.Key.(string)]
-			bIndex, hasB := expectedOrder[b.Key.(string)]
-			if !hasA && !hasB {
+			aIndex, hasA := expectedOrder[aString]
+
+			bIndex, hasB := expectedOrder[bString]
+			if hasA && hasB {
 				return cmp.Compare(aIndex, bIndex)
-			} else {
-				strings.Compare(aString, bString)
 			}
+
+			return strings.Compare(aString, bString)
 		}
 
 		return 0
 	})
+
 	return nil
 }
 

@@ -30,6 +30,7 @@ func RegisterLintCommand() *cobra.Command {
 	return rootCMD
 }
 
+//nolint:gocognit // TODO: refactor later
 func run(cmd *cobra.Command, args []string) {
 	path := args[0]
 
@@ -68,7 +69,6 @@ func run(cmd *cobra.Command, args []string) {
 		} else {
 			allReports = append(allReports, linterReports...)
 		}
-
 	}
 
 	cmd.Printf("Found: %d issue(s)\n", len(allReports))

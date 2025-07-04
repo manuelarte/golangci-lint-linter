@@ -2,8 +2,9 @@ package linters
 
 import (
 	"cmp"
-	"github.com/manuelarte/golangci-lint-linter-go/internal"
 	"slices"
+
+	"github.com/manuelarte/golangci-lint-linter-go/internal"
 )
 
 var _ Linter = new(LinterFieldsSorted)
@@ -15,6 +16,7 @@ type LinterFieldsSorted struct {
 
 func NewLinterFieldsSorted() *LinterFieldsSorted {
 	expectedOrder := map[string]int{"default": 0, "enable": 1, "disable": 2, "settings": 3, "exclusions": 4}
+
 	return &LinterFieldsSorted{
 		rule:          internal.GC013,
 		expectedOrder: expectedOrder,
@@ -38,6 +40,7 @@ func (l LinterFieldsSorted) Lint(golangci internal.Golangci) []internal.Report {
 	slices.SortFunc(sorted, func(a, b string) int {
 		aIndex := l.expectedOrder[a]
 		bIndex := l.expectedOrder[b]
+
 		return cmp.Compare(aIndex, bIndex)
 	})
 
