@@ -34,7 +34,7 @@ linters:
 
 `--fix` option available.
 
-## Experimental: GC002: Settings are sorted alphabetically
+## Experimental: GC002: Linters' settings are sorted alphabetically
 
 Linter's settings are expected to be sorted alphabetically, e.g.
 
@@ -75,9 +75,9 @@ linters:
 
 `--fix` option available.
 
-## Experimental: GC013: Fields are sorted by: default, enabled, disabled, settings, exclusions
+## Experimental: GC013: Linters' fields follow the order: default, enabled, disabled, settings, exclusions
 
-The expected order for the `linters` field is:
+The expected order for the `linters` fields is:
 
 + default
 + enable
