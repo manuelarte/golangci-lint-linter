@@ -2,6 +2,7 @@ package linters
 
 import (
 	"fmt"
+	"github.com/manuelarte/golangci-lint-linter/models"
 
 	"github.com/manuelarte/golangci-lint-linter/internal"
 )
@@ -18,7 +19,7 @@ func NewDisabledLintersWithReason() *DisabledLintersWithReason {
 	}
 }
 
-func (l DisabledLintersWithReason) Lint(golangci internal.Golangci) []internal.Report {
+func (l DisabledLintersWithReason) Lint(golangci models.Golangci) []internal.Report {
 	reports := make([]internal.Report, 0)
 
 	linters, ok := golangci.GetLinters()

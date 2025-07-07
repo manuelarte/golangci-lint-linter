@@ -5,13 +5,28 @@ package main
 import (
 	"fmt"
 	"syscall/js"
+
+	"github.com/manuelarte/golangci-lint-linter/commands"
 )
 
 func apply(this js.Value, args []js.Value) any {
 	input := args[0].String()
-	msg := fmt.Sprintf("WebAssembly Input: %s\n", input)
+
+	outputFixedGolangci, _, err := commands.Lint([]byte(input), true)
+	if err != nil {
+		// TODO: handle error
+		return ""
+	}
+
+	o, err := outputFixedGolangci.Marshal()
+	if err != nil {
+		return ""
+	}
+
+	msg := fmt.Sprintf("WebAssembly Output: %s\n", o)
 	fmt.Print(msg)
-	return msg
+
+	return string(o)
 }
 
 func main() {

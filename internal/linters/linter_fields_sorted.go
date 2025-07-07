@@ -2,6 +2,7 @@ package linters
 
 import (
 	"cmp"
+	"github.com/manuelarte/golangci-lint-linter/models"
 	"slices"
 
 	"github.com/manuelarte/golangci-lint-linter/internal"
@@ -23,7 +24,7 @@ func NewLinterFieldsSorted() *LinterFieldsSorted {
 	}
 }
 
-func (l LinterFieldsSorted) Lint(golangci internal.Golangci) []internal.Report {
+func (l LinterFieldsSorted) Lint(golangci models.Golangci) []internal.Report {
 	reports := make([]internal.Report, 0)
 
 	linters, ok := golangci.GetLinters()
@@ -54,7 +55,7 @@ func (l LinterFieldsSorted) Lint(golangci internal.Golangci) []internal.Report {
 	return reports
 }
 
-func (l LinterFieldsSorted) Fix(golangci internal.Golangci) error {
+func (l LinterFieldsSorted) Fix(golangci models.Golangci) error {
 	linters, ok := golangci.GetLinters()
 	if !ok {
 		return nil

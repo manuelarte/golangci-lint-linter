@@ -1,9 +1,8 @@
 package linters
 
 import (
+	"github.com/manuelarte/golangci-lint-linter/models"
 	"testing"
-
-	"github.com/manuelarte/golangci-lint-linter/internal"
 )
 
 func TestDisabledLintersWithReason_Lint(t *testing.T) {
@@ -51,7 +50,7 @@ linters:
 
 	for name, test := range testCases {
 		t.Run(name, func(t *testing.T) {
-			golangci, err := internal.Parse(test.input)
+			golangci, err := models.Parse(test.input)
 			if err != nil {
 				t.Fatal(err)
 			}

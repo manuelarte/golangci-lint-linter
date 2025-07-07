@@ -2,13 +2,12 @@ package main
 
 import (
 	"fmt"
+	"github.com/manuelarte/golangci-lint-linter/commands"
 	"os"
-
-	"github.com/manuelarte/golangci-lint-linter/internal/cmd"
 )
 
 func main() {
-	rootCMD := cmd.RegisterLintCommand()
+	rootCMD := commands.RegisterLintCommand()
 
 	err := rootCMD.Execute()
 	if err != nil {

@@ -2,6 +2,7 @@ package linters
 
 import (
 	"github.com/manuelarte/golangci-lint-linter/internal"
+	"github.com/manuelarte/golangci-lint-linter/models"
 )
 
 var _ Linter = new(SettingsAlphabetical)
@@ -16,7 +17,7 @@ func NewSettingsAlphabetical() *SettingsAlphabetical {
 	}
 }
 
-func (l SettingsAlphabetical) Lint(golangci internal.Golangci) []internal.Report {
+func (l SettingsAlphabetical) Lint(golangci models.Golangci) []internal.Report {
 	reports := make([]internal.Report, 0)
 
 	keys, hasKeys := l.getSettingsKeys(golangci)
@@ -34,7 +35,7 @@ func (l SettingsAlphabetical) Lint(golangci internal.Golangci) []internal.Report
 	return reports
 }
 
-func (l SettingsAlphabetical) Fix(golangci internal.Golangci) error {
+func (l SettingsAlphabetical) Fix(golangci models.Golangci) error {
 	linters, ok := golangci.GetLinters()
 	if !ok {
 		return nil
@@ -43,7 +44,7 @@ func (l SettingsAlphabetical) Fix(golangci internal.Golangci) error {
 	return linters.SortSettings()
 }
 
-func (l SettingsAlphabetical) getSettingsKeys(golangci internal.Golangci) ([]string, bool) {
+func (l SettingsAlphabetical) getSettingsKeys(golangci models.Golangci) ([]string, bool) {
 	linters, ok := golangci.GetLinters()
 	if !ok {
 		return nil, false

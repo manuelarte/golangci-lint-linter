@@ -2,6 +2,7 @@ package linters
 
 import (
 	"github.com/manuelarte/golangci-lint-linter/internal"
+	"github.com/manuelarte/golangci-lint-linter/models"
 )
 
 var _ Linter = new(LintersAlphabetical)
@@ -17,7 +18,7 @@ func NewLintersAlphabetical() *LintersAlphabetical {
 	}
 }
 
-func (l LintersAlphabetical) Lint(golangci internal.Golangci) []internal.Report {
+func (l LintersAlphabetical) Lint(golangci models.Golangci) []internal.Report {
 	reports := make([]internal.Report, 0)
 
 	enable, disable := l.getEnableAndDisable(golangci)
@@ -38,7 +39,7 @@ func (l LintersAlphabetical) Lint(golangci internal.Golangci) []internal.Report 
 	return reports
 }
 
-func (l LintersAlphabetical) Fix(golangci internal.Golangci) error {
+func (l LintersAlphabetical) Fix(golangci models.Golangci) error {
 	linters, ok := golangci.GetLinters()
 	if !ok {
 		return nil
@@ -58,7 +59,7 @@ func (l LintersAlphabetical) Fix(golangci internal.Golangci) error {
 }
 
 //nolint:nonamedreturns // two return same type
-func (l LintersAlphabetical) getEnableAndDisable(golangci internal.Golangci) (enable, disable []string) {
+func (l LintersAlphabetical) getEnableAndDisable(golangci models.Golangci) (enable, disable []string) {
 	linters, ok := golangci.GetLinters()
 	if !ok {
 		return

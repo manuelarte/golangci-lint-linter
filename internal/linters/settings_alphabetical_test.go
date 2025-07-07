@@ -1,10 +1,9 @@
 package linters
 
 import (
+	"github.com/manuelarte/golangci-lint-linter/models"
 	"reflect"
 	"testing"
-
-	"github.com/manuelarte/golangci-lint-linter/internal"
 )
 
 func TestSettingsAlphabetical_Lint(t *testing.T) {
@@ -46,7 +45,7 @@ linters:
 
 	for name, test := range testCases {
 		t.Run(name, func(t *testing.T) {
-			golangci, err := internal.Parse(test.input)
+			golangci, err := models.Parse(test.input)
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -142,7 +141,7 @@ linters:
 
 	for name, test := range testCases {
 		t.Run(name, func(t *testing.T) {
-			golangci, err := internal.Parse(test.input)
+			golangci, err := models.Parse(test.input)
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -154,7 +153,7 @@ linters:
 				t.Fatal(err)
 			}
 
-			actual, err := golangci.(internal.YamlGolangci).Marshal()
+			actual, err := golangci.(models.YamlGolangci).Marshal()
 			if err != nil {
 				t.Fatal(err)
 			}
