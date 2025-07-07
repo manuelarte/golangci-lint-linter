@@ -9,7 +9,7 @@ import (
 
 func apply(this js.Value, args []js.Value) any {
 	input := args[0].String()
-	msg := fmt.Sprintf("Input: %s\n", input)
+	msg := fmt.Sprintf("WebAssembly Input: %s\n", input)
 	fmt.Print(msg)
 	return msg
 }

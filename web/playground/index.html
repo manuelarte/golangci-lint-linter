@@ -15,7 +15,7 @@
             } else{
                 wasm_instance = (await WebAssembly.instantiate(await ((await wasm_module).arrayBuffer()), go.importObject)).instance
             }
-            go.run(wasm_instance)
+            await go.run(wasm_instance)
             console.log("Go WebAssembly Initialized")
         })(wasm_instance)
     </script>
