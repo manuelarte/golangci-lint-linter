@@ -9,6 +9,7 @@
           row-height="30"
           rows="30"
           variant="outlined"
+          @click:clear="lint(null)"
           @input="lint($event.target.value)"
         />
       </v-col>
@@ -33,8 +34,10 @@
   const originalContent = ref()
   const proposedContent = ref()
 
-  const lint = (str: string) => {
-    if (str != null) {
+  const lint = (str: string | null) => {
+    if (str == null || str == '') {
+      proposedContent.value = null
+    } else {
       originalContent.value = str
       proposedContent.value = apply(originalContent.value)
     }
