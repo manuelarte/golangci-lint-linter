@@ -31,8 +31,8 @@
 <script setup lang="ts">
   import { ref } from 'vue'
 
-  const originalContent = ref()
-  const proposedContent = ref()
+  const originalContent: Ref<string | null> = ref(null)
+  const proposedContent: Ref<string | null> = ref(null)
 
   const lint = (str: string | null) => {
     if (str == null || str == '') {
