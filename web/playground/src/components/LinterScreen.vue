@@ -40,10 +40,4 @@
     }
   }
 
-  if (originalContent.value != null) {
-    let pc = apply(originalContent)
-    console.log(pc)
-    proposedContent.value = pc
-  }
-
 </script>

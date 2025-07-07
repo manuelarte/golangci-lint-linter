@@ -1,5 +1,5 @@
 <template>
-  <HelloWorld />
+  <LinterScreen />
 </template>
 
 <script lang="ts" setup>
