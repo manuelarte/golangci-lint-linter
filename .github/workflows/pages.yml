@@ -1,12 +1,13 @@
 name: pages.yml
-on:
-  workflow_dispatch:
-  push:
 
 permissions:
   contents: read
   pages: write
   id-token: write
+
+on:
+  workflow_dispatch:
+  push:
 
 concurrency:
   group: 'pages'
@@ -24,8 +25,8 @@ jobs:
           node-version: 23
           cache: 'npm'
           cache-dependency-path: web/playground/package-lock.json
-      ##- name: install dependencies
-      ##  run: npm install ./web/playground
+      - name: install dependencies
+        run: npm install ./web/playground
       ##- name: build
       ##  run: npm build ./docs/playground
       ##- name: setup Pages
