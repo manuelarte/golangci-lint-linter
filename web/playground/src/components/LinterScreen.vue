@@ -56,6 +56,7 @@
       proposedContent.value = null
     } else {
       originalContent.value = str
+      // @ts-ignore
       proposedContent.value = apply(originalContent.value)
     }
   }
