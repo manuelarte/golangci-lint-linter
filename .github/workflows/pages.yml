@@ -28,7 +28,7 @@ jobs:
       - name: install dependencies
         run: npm install ./web/playground
       - name: build
-        run: npm run build ./docs/playground
+        run: npm run build ./web/playground
       ##- name: setup Pages
       ##  uses: actions/configure-pages@v4
       ##- name: upload artifact
