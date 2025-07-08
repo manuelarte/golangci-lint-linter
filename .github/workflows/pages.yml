@@ -1,10 +1,9 @@
 name: pages.yml
 on:
+  workflow_dispatch:
   push:
     tags:
       - v*
-
-workflow_dispatch:
 
 permissions:
   contents: read
