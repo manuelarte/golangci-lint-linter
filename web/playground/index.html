@@ -5,20 +5,6 @@
     <link rel="icon" href="/favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="module" src="./wasm_exec.js"></script>
-    <script>
-        let wasm_instance
-        (async function loadAndRunGoWasm() {
-            const go = new Go();
-            const wasm_module = fetch("src/golangci-lint-linter.wasm")
-            if (WebAssembly.instantiateStreaming){
-                wasm_instance = (await WebAssembly.instantiateStreaming(wasm_module, go.importObject)).instance;
-            } else{
-                wasm_instance = (await WebAssembly.instantiate(await ((await wasm_module).arrayBuffer()), go.importObject)).instance
-            }
-            await go.run(wasm_instance)
-            console.log("Go WebAssembly Initialized")
-        })(wasm_instance)
-    </script>
     <title>manuelarte/golangci-lint-linter Playground</title>
   </head>
   <body>

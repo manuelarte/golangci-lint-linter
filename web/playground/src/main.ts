@@ -21,3 +21,10 @@ const app = createApp(App)
 registerPlugins(app)
 
 app.mount('#app')
+
+// Load Go WASM
+// @ts-expect-error
+const go = new Go();
+WebAssembly.instantiateStreaming(fetch("src/golangci-lint-linter.wasm"), go.importObject).then(result => {
+  go.run(result.instance);
+});
