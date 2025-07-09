@@ -16,6 +16,8 @@ import App from './App.vue'
 // Styles
 import 'unfonts.css'
 
+import init from './golangci-lint-linter.wasm?init';
+
 const app = createApp(App)
 
 registerPlugins(app)
@@ -27,4 +29,5 @@ app.mount('#app')
 const go = new Go();
 WebAssembly.instantiateStreaming(fetch("src/golangci-lint-linter.wasm"), go.importObject).then(result => {
   go.run(result.instance);
+  init(go.importObject);
 });
