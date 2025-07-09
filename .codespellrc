@@ -1,3 +1,4 @@
 [codespell]
 # Comma separated list of words to be ignored. Words must be lowercased.
 ignore-words-list = decorder
+skip = **/package-lock.json,**/pnpm-lock.yaml,**/node_modules/**,./web/playground/dist/*
