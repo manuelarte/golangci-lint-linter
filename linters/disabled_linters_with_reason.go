@@ -2,25 +2,28 @@ package linters
 
 import (
 	"fmt"
-	"github.com/manuelarte/golangci-lint-linter/models"
 
-	"github.com/manuelarte/golangci-lint-linter/internal"
+	"github.com/manuelarte/golangci-lint-linter/models"
 )
 
 var _ Linter = new(DisabledLintersWithReason)
 
 type DisabledLintersWithReason struct {
-	rule internal.RuleCode
+	rule models.RuleCode
 }
 
 func NewDisabledLintersWithReason() *DisabledLintersWithReason {
 	return &DisabledLintersWithReason{
-		rule: internal.GC021,
+		rule: models.GC021,
 	}
 }
 
-func (l DisabledLintersWithReason) Lint(golangci models.Golangci) []internal.Report {
-	reports := make([]internal.Report, 0)
+func (l DisabledLintersWithReason) Rule() models.RuleCode {
+	return l.rule
+}
+
+func (l DisabledLintersWithReason) Lint(golangci models.Golangci) []models.Report {
+	reports := make([]models.Report, 0)
 
 	linters, ok := golangci.GetLinters()
 	if !ok {
@@ -35,7 +38,7 @@ func (l DisabledLintersWithReason) Lint(golangci models.Golangci) []internal.Rep
 	for i, disable := range disabled {
 		_, hasComment := golangci.GetComment(fmt.Sprintf("$.linters.disable[%d]", i))
 		if !hasComment {
-			reports = append(reports, internal.Report{
+			reports = append(reports, models.Report{
 				Rule:    l.rule,
 				Message: fmt.Sprintf("linters.disable.%s does not have a reason", disable),
 			})

@@ -2,7 +2,6 @@ package commands
 
 import (
 	"fmt"
-	"github.com/manuelarte/golangci-lint-linter/models"
 	"os"
 	"path/filepath"
 	"runtime/debug"
@@ -10,8 +9,8 @@ import (
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 
-	"github.com/manuelarte/golangci-lint-linter/internal"
-	"github.com/manuelarte/golangci-lint-linter/internal/linters"
+	"github.com/manuelarte/golangci-lint-linter/linters"
+	
 )
 
 //nolint:gochecknoglobals // color red
@@ -32,13 +31,13 @@ func RegisterLintCommand() *cobra.Command {
 	return rootCMD
 }
 
-func Lint(input []byte, isFix bool) (models.Golangci, []internal.Report, error) {
+func Lint(input []byte, isFix bool) (models.Golangci, []models.Report, error) {
 	golangci, err := models.Parse(input)
 	if err != nil {
 		return nil, nil, fmt.Errorf("error reading yaml file: %w", err)
 	}
 
-	allReports := make([]internal.Report, 0)
+	allReports := make([]models.Report, 0)
 
 	for _, linter := range getAllLinters() {
 		linterReports := linter.Lint(golangci)
@@ -58,7 +57,6 @@ func Lint(input []byte, isFix bool) (models.Golangci, []internal.Report, error) 
 	return golangci, allReports, nil
 }
 
-//nolint:gocognit // TODO: refactor later
 func run(cmd *cobra.Command, args []string) {
 	path := args[0]
 
@@ -79,6 +77,7 @@ func run(cmd *cobra.Command, args []string) {
 	}
 
 	cmd.Printf("Linting: %q\n", path)
+
 	golangciFixed, reports, err := Lint(input, isFix)
 	if err != nil {
 		errorMsg := errorColor.Sprintf("Error Linting %s: %s\n", path, err)
@@ -89,14 +88,14 @@ func run(cmd *cobra.Command, args []string) {
 	cmd.Printf("Found: %d issue(s)\n", len(reports))
 
 	if isFix {
-		fixedFile, errM := golangciFixed.Marshal()
+		fixedBytes, errM := golangciFixed.Marshal()
 		if errM != nil {
 			errorMsg := errorColor.Sprintf("Error Marshaling file: %s\n", errM)
 			cmd.PrintErrf(errorMsg)
 			os.Exit(1)
 		}
 
-		err = os.WriteFile(path, fixedFile, 0o600)
+		err = os.WriteFile(path, fixedBytes, 0o600)
 		if err != nil {
 			errorMsg := errorColor.Sprintf("Error writing file: %s\n", err)
 			cmd.PrintErrf(errorMsg)

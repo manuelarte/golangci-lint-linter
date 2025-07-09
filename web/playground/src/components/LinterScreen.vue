@@ -26,6 +26,18 @@
       </v-col>
 
       <v-col cols="6">
+        <v-banner
+          v-if="isError()"
+          class="my-4"
+          color="error"
+          icon="error"
+          lines="two"
+          :sticky="true"
+        >
+          <v-banner-text>
+            {{ applyResponse?.error }}
+          </v-banner-text>
+        </v-banner>
         <p>TODO: List of errors</p>
       </v-col>
     </v-row>
@@ -34,7 +46,7 @@
         <CodeDiff
           filename=".golangci.yml"
           lang="yaml"
-          :new-string="proposedContent"
+          :new-string="applyResponse?.output || ''"
           :old-string="originalContent"
           output-format="side-by-side"
           theme="dark"
@@ -48,17 +60,31 @@
   import { CodeDiff } from 'v-code-diff'
   import { ref } from 'vue'
 
+  interface GoResponse {
+    output: string
+    error: string
+  }
+
   const originalContent: Ref<string | null> = ref(null)
-  const proposedContent: Ref<string | null> = ref(null)
+  const applyResponse: Ref<GoResponse | null> = ref(null)
 
   const lint = (str: string | null) => {
     if (str == null || str == '') {
-      proposedContent.value = null
+      applyResponse.value = null
     } else {
       originalContent.value = str
-      // @ts-ignore
-      proposedContent.value = apply(originalContent.value)
+      // @ts-ignore // func defined in wasm
+      applyResponse.value = apply(originalContent.value)
     }
+  }
+  const isError = (): boolean => {
+    if (applyResponse.value == null) {
+      return false
+    }
+    if (applyResponse.value?.error == null) {
+      return false
+    }
+    return applyResponse.value?.error.length > 0
   }
 
 </script>

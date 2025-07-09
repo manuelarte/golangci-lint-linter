@@ -1,12 +1,13 @@
 package linters
 
 import (
-	"github.com/manuelarte/golangci-lint-linter/models"
 	"reflect"
 	"testing"
+
+	"github.com/manuelarte/golangci-lint-linter/models"
 )
 
-func TestLintersAlphabetical_Lint(t *testing.T) {
+func TestSettingsAlphabetical_Lint(t *testing.T) {
 	testCases := map[string]struct {
 		input       []byte
 		expectedLen int
@@ -17,43 +18,27 @@ version: 2
 `),
 			expectedLen: 0,
 		},
-		"linters enable not sorted alphabetically": {
+		"linters settings not sorted alphabetically": {
 			input: []byte(`
 version: 2
 linters:
-  enable:
-    - tagliatelle
-    - funcorder
+  settings:
+    bidichk:
+      left-to-right-embedding: false
+    asasalint:
+      use-builtin-exclusions: false
 `),
 			expectedLen: 1,
 		},
-		"linters enable sorted alphabetically": {
+		"linters settings sorted alphabetically": {
 			input: []byte(`
 version: 2
 linters:
-  enable:
-    - funcorder
-    - tagliatelle
-`),
-			expectedLen: 0,
-		},
-		"linters disable not sorted alphabetically": {
-			input: []byte(`
-version: 2
-linters:
-  disable:
-    - tagliatelle
-    - funcorder
-`),
-			expectedLen: 1,
-		},
-		"linters disable sorted alphabetically": {
-			input: []byte(`
-version: 2
-linters:
-  disable:
-    - funcorder
-    - tagliatelle
+  settings:
+    asasalint:
+      use-builtin-exclusions: false
+    bidichk:
+      left-to-right-embedding: false
 `),
 			expectedLen: 0,
 		},
@@ -66,7 +51,7 @@ linters:
 				t.Fatal(err)
 			}
 
-			lint := NewLintersAlphabetical()
+			lint := NewSettingsAlphabetical()
 
 			reports := lint.Lint(golangci)
 			if len(reports) != test.expectedLen {
@@ -76,7 +61,7 @@ linters:
 	}
 }
 
-func TestLintersAlphabetical_Fix(t *testing.T) {
+func TestSettingsAlphabetical_Fix(t *testing.T) {
 	testCases := map[string]struct {
 		input    []byte
 		expected []byte
@@ -87,13 +72,31 @@ version: 2
 `),
 			expected: []byte("version: 2\n"),
 		},
-		"linters enable not sorted alphabetically": {
+		"linters.settings field not present": {
 			input: []byte(`
 version: 2
 linters:
   enable:
+    - funcorder
+`),
+			expected: []byte(`version: 2
+linters:
+  enable:
+    - funcorder
+`),
+		},
+		"linters settings not sorted alphabetically": {
+			input: []byte(`
+version: 2
+linters:
+  enable:
+    - funcorder    
     - tagliatelle # make sure all the json tags are following the same pattern
-    - funcorder
+  settings:
+    tagliatelle:
+      propTagliatelle: valueTagliatelle
+    funcorder:
+      propFuncorder: valueFuncorder
 `),
 			expected: []byte(
 				`version: 2
@@ -101,56 +104,40 @@ linters:
   enable:
     - funcorder
     - tagliatelle # make sure all the json tags are following the same pattern
+  settings:
+    funcorder:
+      propFuncorder: valueFuncorder
+    tagliatelle:
+      propTagliatelle: valueTagliatelle
 `),
 		},
-		"linters enable sorted alphabetically": {
+		"linters settings sorted alphabetically": {
 			input: []byte(`
 version: 2
 linters:
   enable:
-    - funcorder # method order
-    - tagliatelle
+    - funcorder    
+    - tagliatelle # make sure all the json tags are following the same pattern
+  settings:
+    funcorder:
+      propFuncorder: valueFuncorder    
+    tagliatelle:
+      propTagliatelle: valueTagliatelle
 `),
 			expected: []byte(
 				`version: 2
 linters:
   enable:
-    - funcorder # method order
-    - tagliatelle
+    - funcorder
+    - tagliatelle # make sure all the json tags are following the same pattern
+  settings:
+    funcorder:
+      propFuncorder: valueFuncorder
+    tagliatelle:
+      propTagliatelle: valueTagliatelle
 `),
 		},
-		"linters disable not sorted alphabetically": {
-			input: []byte(`
-version: 2
-linters:
-  disable:
-    - tagliatelle # not needed
-    - funcorder
-`),
-			expected: []byte(
-				`version: 2
-linters:
-  disable:
-    - funcorder
-    - tagliatelle # not needed
-`),
-		},
-		"linters disable sorted alphabetically": {
-			input: []byte(`
-version: 2
-linters:
-  disable:
-    - funcorder
-    - tagliatelle # not needed
-`),
-			expected: []byte(
-				`version: 2
-linters:
-  disable:
-    - funcorder
-    - tagliatelle # not needed
-`),
-		},
+		// TODO: Add tests with comments
 	}
 
 	for name, test := range testCases {
@@ -160,7 +147,7 @@ linters:
 				t.Fatal(err)
 			}
 
-			lint := NewLintersAlphabetical()
+			lint := NewSettingsAlphabetical()
 
 			err = lint.Fix(golangci)
 			if err != nil {

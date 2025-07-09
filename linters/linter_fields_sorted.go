@@ -2,16 +2,16 @@ package linters
 
 import (
 	"cmp"
-	"github.com/manuelarte/golangci-lint-linter/models"
 	"slices"
 
 	"github.com/manuelarte/golangci-lint-linter/internal"
+	"github.com/manuelarte/golangci-lint-linter/models"
 )
 
 var _ Linter = new(LinterFieldsSorted)
 
 type LinterFieldsSorted struct {
-	rule          internal.RuleCode
+	rule          models.RuleCode
 	expectedOrder map[string]int
 }
 
@@ -19,13 +19,17 @@ func NewLinterFieldsSorted() *LinterFieldsSorted {
 	expectedOrder := map[string]int{"default": 0, "enable": 1, "disable": 2, "settings": 3, "exclusions": 4}
 
 	return &LinterFieldsSorted{
-		rule:          internal.GC013,
+		rule:          models.GC013,
 		expectedOrder: expectedOrder,
 	}
 }
 
-func (l LinterFieldsSorted) Lint(golangci models.Golangci) []internal.Report {
-	reports := make([]internal.Report, 0)
+func (l LinterFieldsSorted) Rule() models.RuleCode {
+	return l.rule
+}
+
+func (l LinterFieldsSorted) Lint(golangci models.Golangci) []models.Report {
+	reports := make([]models.Report, 0)
 
 	linters, ok := golangci.GetLinters()
 	if !ok {
@@ -46,7 +50,7 @@ func (l LinterFieldsSorted) Lint(golangci models.Golangci) []internal.Report {
 	})
 
 	if !internal.EqualArray(fields, sorted) {
-		reports = append(reports, internal.Report{
+		reports = append(reports, models.Report{
 			Rule:    l.rule,
 			Message: "linters fields are not sorted",
 		})

@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/manuelarte/golangci-lint-linter/commands"
 	"os"
+
+	"github.com/manuelarte/golangci-lint-linter/commands"
 )
 
 func main() {

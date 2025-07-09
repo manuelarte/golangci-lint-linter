@@ -1,8 +1,9 @@
 package linters
 
 import (
-	"github.com/manuelarte/golangci-lint-linter/models"
 	"testing"
+
+	"github.com/manuelarte/golangci-lint-linter/models"
 )
 
 func TestDisabledLintersWithReason_Lint(t *testing.T) {

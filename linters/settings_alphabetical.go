@@ -8,17 +8,21 @@ import (
 var _ Linter = new(SettingsAlphabetical)
 
 type SettingsAlphabetical struct {
-	rule internal.RuleCode
+	rule models.RuleCode
 }
 
 func NewSettingsAlphabetical() *SettingsAlphabetical {
 	return &SettingsAlphabetical{
-		rule: internal.GC002,
+		rule: models.GC002,
 	}
 }
 
-func (l SettingsAlphabetical) Lint(golangci models.Golangci) []internal.Report {
-	reports := make([]internal.Report, 0)
+func (l SettingsAlphabetical) Rule() models.RuleCode {
+	return l.rule
+}
+
+func (l SettingsAlphabetical) Lint(golangci models.Golangci) []models.Report {
+	reports := make([]models.Report, 0)
 
 	keys, hasKeys := l.getSettingsKeys(golangci)
 	if !hasKeys {
@@ -26,7 +30,7 @@ func (l SettingsAlphabetical) Lint(golangci models.Golangci) []internal.Report {
 	}
 
 	if _, ok := internal.IsAlphabetical(keys); !ok {
-		reports = append(reports, internal.Report{
+		reports = append(reports, models.Report{
 			Rule:    l.rule,
 			Message: "linters.settings are not sorted alphabetically",
 		})

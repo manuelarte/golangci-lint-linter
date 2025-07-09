@@ -1,12 +1,12 @@
 package linters
 
 import (
-	"github.com/manuelarte/golangci-lint-linter/internal"
 	"github.com/manuelarte/golangci-lint-linter/models"
 )
 
 type Linter interface {
-	Lint(golangci models.Golangci) []internal.Report
+	Rule() models.RuleCode
+	Lint(golangci models.Golangci) []models.Report
 }
 
 type Fixer interface {

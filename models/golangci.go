@@ -4,11 +4,12 @@ import (
 	"cmp"
 	"errors"
 	"fmt"
-	"github.com/manuelarte/golangci-lint-linter/internal"
 	"slices"
 	"strings"
 
 	"github.com/goccy/go-yaml"
+
+	"github.com/manuelarte/golangci-lint-linter/internal"
 )
 
 var errLintersEnableNotFound = errors.New("linters.enable not found")
@@ -160,6 +161,12 @@ func (l YamlLinters) SortDisable() error {
 	sorted, hasSorted := l.sort(disable, cmDisablePath)
 	if !hasSorted {
 		return nil
+	}
+
+	// convert to []any
+	sortedAny := make([]any, len(sorted))
+	for i, s := range sorted {
+		sortedAny[i] = s
 	}
 
 	return l.replace("disable", sorted)
