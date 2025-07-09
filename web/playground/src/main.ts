@@ -16,7 +16,7 @@ import App from './App.vue'
 // Styles
 import 'unfonts.css'
 
-import init from './golangci-lint-linter.wasm?init';
+import wasmUrl from "./golangci-lint-linter.wasm?url";
 
 const app = createApp(App)
 
@@ -25,9 +25,10 @@ registerPlugins(app)
 app.mount('#app')
 
 // Load Go WASM
+const responsePromise = fetch(wasmUrl);
 // @ts-expect-error
 const go = new Go();
-WebAssembly.instantiateStreaming(fetch("src/golangci-lint-linter.wasm"), go.importObject).then(result => {
-  go.run(result.instance);
-  init(go.importObject);
+WebAssembly.instantiateStreaming(responsePromise, go.importObject)
+  .then(result => {
+    go.run(result.instance);
 });
