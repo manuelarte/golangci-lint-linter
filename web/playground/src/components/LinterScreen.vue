@@ -40,7 +40,7 @@
         </v-banner>
 
         <v-banner
-          v-if="originalContent && !isError() && !isReports()"
+          v-if="isOriginalContent() && applyResponse?.output == originalContent"
           class="my-4"
           color="blue"
           icon="mdi-check-circle"
@@ -57,6 +57,7 @@
     <v-row>
       <v-col cols="40">
         <CodeDiff
+          context="100"
           filename=".golangci.yml"
           lang="yaml"
           :new-string="applyResponse?.output || ''"
@@ -83,10 +84,12 @@
   const applyResponse: Ref<GoResponse | null> = ref(null)
 
   const lint = (str: string | null) => {
+    console.log(str)
     if (str == null || str == '') {
       applyResponse.value = null
     } else {
       originalContent.value = str
+      console.log(originalContent.value == str)
       // @ts-ignore // func defined in wasm
       applyResponse.value = apply(originalContent.value)
     }
@@ -109,6 +112,10 @@
       return false
     }
     return applyResponse.value?.reports.length > 0
+  }
+
+  const isOriginalContent = (): boolean => {
+    return originalContent != null && originalContent.value != null && originalContent.value.length > 0
   }
 
 </script>
