@@ -10,7 +10,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/manuelarte/golangci-lint-linter/linters"
-	
+	"github.com/manuelarte/golangci-lint-linter/models"
 )
 
 //nolint:gochecknoglobals // color red
