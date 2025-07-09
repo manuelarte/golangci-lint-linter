@@ -38,7 +38,20 @@
             {{ applyResponse?.error }}
           </v-banner-text>
         </v-banner>
-        <p>TODO: List of errors</p>
+
+        <v-banner
+          v-if="originalContent && !isError() && !isReports()"
+          class="my-4"
+          color="blue"
+          icon="mdi-check-circle"
+          lines="one"
+        >
+          <v-banner-text>
+            Looks good!
+          </v-banner-text>
+        </v-banner>
+
+        <p v-if="isReports()">TODO: List of errors</p>
       </v-col>
     </v-row>
     <v-row>
@@ -62,6 +75,7 @@
 
   interface GoResponse {
     output: string
+    reports: string
     error: string
   }
 
@@ -85,6 +99,16 @@
       return false
     }
     return applyResponse.value?.error.length > 0
+  }
+
+  const isReports = (): boolean => {
+    if (applyResponse.value == null) {
+      return false
+    }
+    if (applyResponse.value?.reports == null) {
+      return false
+    }
+    return applyResponse.value?.reports.length > 0
   }
 
 </script>
