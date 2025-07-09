@@ -149,7 +149,13 @@ func (l YamlLinters) SortEnable() error {
 		return nil
 	}
 
-	return l.replace("enable", sorted)
+	// convert to []any
+	sortedAny := make([]any, len(sorted))
+	for i, s := range sorted {
+		sortedAny[i] = s
+	}
+
+	return l.replace("enable", sortedAny)
 }
 
 func (l YamlLinters) SortDisable() error {
@@ -169,7 +175,7 @@ func (l YamlLinters) SortDisable() error {
 		sortedAny[i] = s
 	}
 
-	return l.replace("disable", sorted)
+	return l.replace("disable", sortedAny)
 }
 
 func (l YamlLinters) SortFields(expectedOrder map[string]int) error {
@@ -234,7 +240,7 @@ func (l YamlLinters) indexLintersComments(original []string, cmPath func(index i
 	return indexMap
 }
 
-func (l YamlLinters) replace(path string, n []string) error {
+func (l YamlLinters) replace(path string, n []any) error {
 	_, index, ok := getKey[[]any](*l.fields, path)
 	if !ok {
 		return errLintersEnableNotFound

@@ -58,6 +58,6 @@ func main() {
 
 	js.Global().Set("apply", js.FuncOf(applyJS))
 
-	fmt.Println("Hello WebAssembly!")
+	fmt.Println("WebAssembly linter started")
 	<-c
 }
