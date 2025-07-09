@@ -3,7 +3,7 @@
     app
     height="40"
   >
-    <p>Created by Manuel Doncel Martos</p>
+    <p>Created by manuelarte</p>
     <a
       v-for="item in items"
       :key="item.title"

@@ -7,7 +7,7 @@
     :sticky="true"
   >
     <v-banner-text>
-      This linter is experimental and you should check all the fixed proposed.
+      This is an experimental linter, and you should review all suggested fixes.
     </v-banner-text>
   </v-banner>
   <v-container class="fill-height" max-width="1400">
