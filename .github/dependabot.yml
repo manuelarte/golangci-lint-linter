@@ -1,9 +1,8 @@
 ---
-
 version: 2
 updates:
-  - package-ecosystem: "gomod"  # See documentation for possible values
-    directory: "/"              # Location of package manifests
+  - package-ecosystem: "gomod"
+    directory: "/"
     schedule:
       interval: "weekly"
     groups:
@@ -18,6 +17,18 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+  - package-ecosystem: "npm"
+    directory: "web/playground"
+    schedule:
+      interval: "weekly"
+    groups:
+      all-deps:
+        applies-to: version-updates
+        patterns:
+          - "*"
     commit-message:
       prefix: "chore"
       include: "scope"
